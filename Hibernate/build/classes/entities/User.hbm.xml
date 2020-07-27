@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 27, 2020, 9:35:58 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entities.User" table="user" catalog="conferencemanagement" optimistic-lock="version">
+        <id name="idUser" type="int">
+            <column name="idUSER" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" length="200" />
+        </property>
+        <property name="username" type="string">
+            <column name="USERNAME" length="100" />
+        </property>
+        <property name="password" type="string">
+            <column name="PASSWORD" length="45" />
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" length="200" />
+        </property>
+        <property name="state" type="int">
+            <column name="STATE" length="45" />
+        </property>
+        <set name="attendances" table="attendance" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idUSER" not-null="true" />
+            </key>
+            <one-to-many class="entities.Attendance" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 27, 2020, 9:35:58 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entities.Conference" table="conference" catalog="conferencemanagement" optimistic-lock="version">
+        <id name="idConference" type="int">
+            <column name="idConference" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="place" class="entities.Place" fetch="select">
+            <column name="ID_PLACE" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="NAME" length="45" not-null="true" />
+        </property>
+        <property name="generalInfo" type="string">
+            <column name="GENERAL_INFO" length="45" />
+        </property>
+        <property name="startedtime" type="timestamp">
+            <column name="STARTEDTIME" length="19" not-null="true" />
+        </property>
+        <property name="endedtime" type="timestamp">
+            <column name="ENDEDTIME" length="19" not-null="true" />
+        </property>
+        <property name="visitors" type="int">
+            <column name="VISITORS" not-null="true" />
+        </property>
+        <property name="detail" type="string">
+            <column name="DETAIL" length="1000" />
+        </property>
+        <property name="imageUrl" type="string">
+            <column name="IMAGE_URL" length="45" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="STATUS" />
+        </property>
+        <set name="attendances" table="attendance" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idCONFERENCE" not-null="true" />
+            </key>
+            <one-to-many class="entities.Attendance" />
+        </set>
+    </class>
+</hibernate-mapping>
