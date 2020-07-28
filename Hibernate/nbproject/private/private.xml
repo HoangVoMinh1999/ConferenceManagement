@@ -3,16 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_User/JFrameIndex.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/hibernate/hibernate.reveng.xml</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/dao/userDAO.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/hibernate.cfg.xml</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_User/JFrameLogin.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_User/JFrameRegister.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/entities/User.hbm.xml</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_User/JFrameConference.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/dao/conferenceDAO.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/entities/User.java</file>
+            <file>file:/E:/MidtermJAVA/Hibernate/src/dao/conferenceDAO.java</file>
+            <file>file:/E:/MidtermJAVA/Hibernate/src/UI_admin/JFrameIndexAdmin.java</file>
+            <file>file:/E:/MidtermJAVA/Hibernate/src/entities/Conference.java</file>
+            <file>file:/E:/MidtermJAVA/Hibernate/src/UI_admin/JFrameNewConference.java</file>
         </group>
     </open-files>
 </project-private>

@@ -8,11 +8,13 @@ package UI_admin;
 import entities.*;
 import dao.*;
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,7 +22,9 @@ import javax.swing.JComboBox;
  */
 public class JFrameNewConference extends javax.swing.JFrame {
 
+    private conferenceDAO cfDAO = new conferenceDAO();
     private placeDAO plDAO = new placeDAO();
+    SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     /**
      * Creates new form JFrameNewConference
@@ -36,7 +40,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
         for (int i = 0; i < ls_place.size(); i++) {
             data[i] = ls_place.get(i).getName();
         }
-        DefaultComboBoxModel  cbm = new DefaultComboBoxModel (data);
+        DefaultComboBoxModel cbm = new DefaultComboBoxModel(data);
         this.placeComboBox.setModel(cbm);
     }
 
@@ -61,7 +65,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         nameConferenceTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        gernalInfoTextField = new javax.swing.JTextField();
+        generalInfoTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         startedTimeTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -70,9 +74,9 @@ public class JFrameNewConference extends javax.swing.JFrame {
         placeComboBox = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         detailTextArea = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        detailTextField = new javax.swing.JTextArea();
         saveButton = new javax.swing.JButton();
-        visitorsTextField1 = new javax.swing.JTextField();
+        visitorsTextField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
@@ -91,7 +95,6 @@ public class JFrameNewConference extends javax.swing.JFrame {
 
         avatar.setPreferredSize(new java.awt.Dimension(246, 246));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("F:\\MidtermJAVA\\icon\\icons8_user_50px_1.png")); // NOI18N
         jLabel1.setText("AVATAR");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setIconTextGap(10);
@@ -198,9 +201,9 @@ public class JFrameNewConference extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Thông tin chung:");
 
-        gernalInfoTextField.addActionListener(new java.awt.event.ActionListener() {
+        generalInfoTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gernalInfoTextFieldActionPerformed(evt);
+                generalInfoTextFieldActionPerformed(evt);
             }
         });
 
@@ -230,9 +233,9 @@ public class JFrameNewConference extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Chi tiết:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        detailTextArea.setViewportView(jTextArea1);
+        detailTextField.setColumns(20);
+        detailTextField.setRows(5);
+        detailTextArea.setViewportView(detailTextField);
 
         saveButton.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         saveButton.setForeground(new java.awt.Color(0, 102, 255));
@@ -243,9 +246,9 @@ public class JFrameNewConference extends javax.swing.JFrame {
             }
         });
 
-        visitorsTextField1.addActionListener(new java.awt.event.ActionListener() {
+        visitorsTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                visitorsTextField1ActionPerformed(evt);
+                visitorsTextFieldActionPerformed(evt);
             }
         });
 
@@ -285,7 +288,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(nameConferenceTextField)
                             .addComponent(jLabel3)
-                            .addComponent(gernalInfoTextField)
+                            .addComponent(generalInfoTextField)
                             .addComponent(jLabel4)
                             .addComponent(startedTimeTextField)
                             .addComponent(jLabel5)
@@ -293,7 +296,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(jLabel7)
                             .addComponent(detailTextArea, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
-                            .addComponent(visitorsTextField1)
+                            .addComponent(visitorsTextField)
                             .addComponent(jLabel8)
                             .addComponent(placeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(65, 65, 65))
@@ -313,7 +316,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(gernalInfoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(generalInfoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -332,7 +335,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(visitorsTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(visitorsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -387,9 +390,9 @@ public class JFrameNewConference extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nameConferenceTextFieldActionPerformed
 
-    private void gernalInfoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gernalInfoTextFieldActionPerformed
+    private void generalInfoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generalInfoTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_gernalInfoTextFieldActionPerformed
+    }//GEN-LAST:event_generalInfoTextFieldActionPerformed
 
     private void startedTimeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startedTimeTextFieldActionPerformed
         // TODO add your handling code here:
@@ -401,12 +404,38 @@ public class JFrameNewConference extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
+        Conference cf = new Conference();
+        cf.setName(nameConferenceTextField.getText());
+        cf.setGeneralInfo(generalInfoTextField.getText());
+        try {
+            cf.setStartedtime(newDateFormat.parse(startedTimeTextField.getText()));
+            cf.setEndedtime(newDateFormat.parse(endedTimeTextField.getText()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Place chosen = plDAO.find(placeComboBox.getSelectedIndex()+1);
         
+        cf.setPlace(chosen);
+        cf.setVisitors(Integer.parseInt(visitorsTextField.getText()));
+        cf.setDetail(detailTextField.getText());
+        cf.setStatus(1);
+        if (cfDAO.save(cf)) {
+            JOptionPane.showMessageDialog(null, "Add conference successfully !!!");
+            try {
+                JFrameIndexAdmin j = new JFrameIndexAdmin();
+                j.setVisible(true);
+                this.dispose();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else{
+            JOptionPane.showMessageDialog(null, "Add conference unsuccessfully !!!");
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
-    private void visitorsTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorsTextField1ActionPerformed
+    private void visitorsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorsTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_visitorsTextField1ActionPerformed
+    }//GEN-LAST:event_visitorsTextFieldActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
@@ -454,8 +483,9 @@ public class JFrameNewConference extends javax.swing.JFrame {
     private javax.swing.JPanel avatar;
     private javax.swing.JButton cancelButton;
     private javax.swing.JScrollPane detailTextArea;
+    private javax.swing.JTextArea detailTextField;
     private javax.swing.JTextField endedTimeTextField;
-    private javax.swing.JTextField gernalInfoTextField;
+    private javax.swing.JTextField generalInfoTextField;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -467,7 +497,6 @@ public class JFrameNewConference extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton logoutButton;
     private javax.swing.JTextField nameConferenceTextField;
     private javax.swing.JPanel optionSpace;
@@ -477,6 +506,6 @@ public class JFrameNewConference extends javax.swing.JFrame {
     private javax.swing.JButton showConferenceButton;
     private javax.swing.JTextField startedTimeTextField;
     private javax.swing.JButton statisticButton;
-    private javax.swing.JTextField visitorsTextField1;
+    private javax.swing.JTextField visitorsTextField;
     // End of variables declaration//GEN-END:variables
 }

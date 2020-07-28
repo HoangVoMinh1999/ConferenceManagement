@@ -4,18 +4,26 @@
  * and open the template in the editor.
  */
 package UI_admin;
+
 import UI_User.*;
 import entities.*;
 import dao.*;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author vomin
  */
 public class JFrameIndexAdmin extends javax.swing.JFrame {
-    placeDAO plDAO = new placeDAO();
+
+    private conferenceDAO cfDAO = new conferenceDAO();
+    private placeDAO plDAO = new placeDAO();
+    SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
     /**
      * Creates new form JFrameIndexAdmin
      */
@@ -23,39 +31,41 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         initComponents();
         LoadData();
     }
-    
-        public void LoadData(){
+
+    public void LoadData() {
         //---Data of conference
         DefaultTableModel dtm_con = new DefaultTableModel();
+        dtm_con.addColumn("ID");
         dtm_con.addColumn("Tên");
         dtm_con.addColumn("Thông tin chung");
         dtm_con.addColumn("Thời gian bắt đầu");
         dtm_con.addColumn("Thời gian kết thúc");
         dtm_con.addColumn("Số lượng khách mời");
         dtm_con.addColumn("Chi tiết");
-//        List<Conference> ls_cf = cf.findAll();
-//        for (Conference temp : ls_cf){
-//            dtm_con.addRow(new Object[]{temp.getName(),temp.getGeneralInfo(),temp.getStartedtime(),temp.getEndedtime(),temp.getVisitors(),temp.getDetail()} );
-//        }
+        List<Conference> ls_cf = cfDAO.findAll();
+        for (Conference temp : ls_cf) {
+
+            dtm_con.addRow(new Object[]{temp.getIdConference(), temp.getName(), temp.getGeneralInfo(), temp.getStartedtime(), temp.getEndedtime(), temp.getVisitors(), temp.getDetail()});
+        }
         this.listConference.setModel(dtm_con);
-        
+
         DefaultTableModel dtm_visitors = new DefaultTableModel();
         dtm_visitors.addColumn("Stt");
         dtm_visitors.addColumn("Tên khách mời");
-        dtm_visitors.addColumn("Status");
+        dtm_visitors.addColumn("Trạng thái");
         dtm_visitors.addColumn("");
         this.listVisitors.setModel(dtm_visitors);
-        
+
         List<Place> ls_place = plDAO.findAll();
         String[] data = new String[ls_place.size()];
         for (int i = 0; i < ls_place.size(); i++) {
             data[i] = ls_place.get(i).getName();
         }
-        DefaultComboBoxModel  cbm = new DefaultComboBoxModel (data);
-        cbm.setSelectedItem(ABORT);
+        DefaultComboBoxModel cbm = new DefaultComboBoxModel(data);
         this.placeComboBox.setModel(cbm);
-        
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,7 +92,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         nameConferenceTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        gernalInfoTextField = new javax.swing.JTextField();
+        generalInfoTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         startedTimeTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -90,11 +100,12 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         detailTextArea = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        joinButton = new javax.swing.JButton();
-        visitorsTextField1 = new javax.swing.JTextField();
+        detailTextField = new javax.swing.JTextArea();
+        updateButton = new javax.swing.JButton();
+        visitorsTextField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         placeComboBox = new javax.swing.JComboBox<>();
+        deleteButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listVisitors = new javax.swing.JTable();
@@ -115,7 +126,6 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
         avatar.setPreferredSize(new java.awt.Dimension(246, 246));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("F:\\MidtermJAVA\\icon\\icons8_user_50px_1.png")); // NOI18N
         jLabel1.setText("AVATAR");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setIconTextGap(10);
@@ -123,6 +133,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(0, 51, 204));
         jButton5.setText("Xem, chỉnh sửa thông tin cá nhân");
         jButton5.setBorder(null);
         jButton5.setContentAreaFilled(false);
@@ -217,6 +228,11 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        listConference.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listConferenceMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(listConference);
 
         addConferenceButton.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
@@ -276,9 +292,9 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Thông tin chung:");
 
-        gernalInfoTextField.addActionListener(new java.awt.event.ActionListener() {
+        generalInfoTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gernalInfoTextFieldActionPerformed(evt);
+                generalInfoTextFieldActionPerformed(evt);
             }
         });
 
@@ -306,22 +322,22 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Chi tiết:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        detailTextArea.setViewportView(jTextArea1);
+        detailTextField.setColumns(20);
+        detailTextField.setRows(5);
+        detailTextArea.setViewportView(detailTextField);
 
-        joinButton.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        joinButton.setForeground(new java.awt.Color(255, 0, 0));
-        joinButton.setText("Cập nhật");
-        joinButton.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        updateButton.setForeground(new java.awt.Color(0, 0, 204));
+        updateButton.setText("Cập nhật");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                joinButtonActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
 
-        visitorsTextField1.addActionListener(new java.awt.event.ActionListener() {
+        visitorsTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                visitorsTextField1ActionPerformed(evt);
+                visitorsTextFieldActionPerformed(evt);
             }
         });
 
@@ -330,21 +346,26 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
         placeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        deleteButton.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        deleteButton.setForeground(new java.awt.Color(255, 0, 0));
+        deleteButton.setText("Xóa ");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(187, 187, 187)
-                .addComponent(joinButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(77, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2)
                     .addComponent(nameConferenceTextField)
                     .addComponent(jLabel3)
-                    .addComponent(gernalInfoTextField)
+                    .addComponent(generalInfoTextField)
                     .addComponent(jLabel4)
                     .addComponent(startedTimeTextField)
                     .addComponent(jLabel5)
@@ -352,10 +373,16 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(detailTextArea, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
-                    .addComponent(visitorsTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                    .addComponent(visitorsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                     .addComponent(jLabel8)
                     .addComponent(placeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(65, 65, 65))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addComponent(updateButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(82, 82, 82))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,7 +393,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gernalInfoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(generalInfoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -382,14 +409,16 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(visitorsTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(visitorsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(detailTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(joinButton)
-                .addGap(0, 58, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateButton)
+                    .addComponent(deleteButton))
+                .addGap(0, 65, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "List of visitors", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18))); // NOI18N
@@ -503,9 +532,9 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nameConferenceTextFieldActionPerformed
 
-    private void gernalInfoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gernalInfoTextFieldActionPerformed
+    private void generalInfoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generalInfoTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_gernalInfoTextFieldActionPerformed
+    }//GEN-LAST:event_generalInfoTextFieldActionPerformed
 
     private void startedTimeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startedTimeTextFieldActionPerformed
         // TODO add your handling code here:
@@ -515,13 +544,33 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_endedTimeTextFieldActionPerformed
 
-    private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinButtonActionPerformed
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_joinButtonActionPerformed
+        Conference cf = cfDAO.find(Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString()));
+        cf.setName(nameConferenceTextField.getText());
+        cf.setGeneralInfo(generalInfoTextField.getText());
+        try {
+            cf.setStartedtime(newDateFormat.parse(startedTimeTextField.getText()));
+            cf.setEndedtime(newDateFormat.parse(endedTimeTextField.getText()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Place chosen = plDAO.find(placeComboBox.getSelectedIndex() + 1);
 
-    private void visitorsTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorsTextField1ActionPerformed
+        cf.setPlace(chosen);
+        cf.setVisitors(Integer.parseInt(visitorsTextField.getText()));
+        cf.setDetail(detailTextField.getText());
+        if (cfDAO.update(cf)) {
+            JOptionPane.showMessageDialog(null, "Add conference successfully !!!");
+            LoadData();
+        } else {
+            JOptionPane.showMessageDialog(null, "Add conference unsuccessfully !!!");
+        }
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void visitorsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorsTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_visitorsTextField1ActionPerformed
+    }//GEN-LAST:event_visitorsTextFieldActionPerformed
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
@@ -540,6 +589,39 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_addPlaceButtonActionPerformed
+
+    private void listConferenceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listConferenceMouseClicked
+        // TODO add your handling code here:
+        int id = Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString());
+        System.out.println(id);
+        Conference cf = cfDAO.find(id);
+        Place pl = plDAO.find(cf.getPlace().getIdPlace());
+        System.out.println(pl.getName());
+        this.nameConferenceTextField.setText(cf.getName());
+        this.generalInfoTextField.setText(cf.getGeneralInfo());
+        this.startedTimeTextField.setText(cf.getStartedtime().toString());
+        this.endedTimeTextField.setText(cf.getEndedtime().toString());
+        this.placeComboBox.setSelectedIndex(pl.getIdPlace() - 1);
+        this.visitorsTextField.setText(String.valueOf(cf.getVisitors()));
+        this.detailTextField.setText(cf.getDetail());
+    }//GEN-LAST:event_listConferenceMouseClicked
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        Conference cf = cfDAO.find(Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString()));
+        if (cfDAO.delete(cf)) {
+            JOptionPane.showMessageDialog(null, "Delete conference successfully !!!");
+            LoadData();
+            this.nameConferenceTextField.setText("");
+            this.generalInfoTextField.setText("");
+            this.startedTimeTextField.setText("");
+            this.endedTimeTextField.setText("");
+            this.visitorsTextField.setText("");
+            this.detailTextField.setText("");
+        } else {
+            JOptionPane.showMessageDialog(null, "Delete conference unsuccessfully !!!");
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -580,9 +662,11 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private javax.swing.JButton addConferenceButton;
     private javax.swing.JButton addPlaceButton;
     private javax.swing.JPanel avatar;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JScrollPane detailTextArea;
+    private javax.swing.JTextArea detailTextField;
     private javax.swing.JTextField endedTimeTextField;
-    private javax.swing.JTextField gernalInfoTextField;
+    private javax.swing.JTextField generalInfoTextField;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -599,8 +683,6 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JButton joinButton;
     private javax.swing.JTable listConference;
     private javax.swing.JTable listVisitors;
     private javax.swing.JButton logoutButton;
@@ -611,6 +693,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private javax.swing.JButton showConferenceButton;
     private javax.swing.JTextField startedTimeTextField;
     private javax.swing.JButton statisticButton;
-    private javax.swing.JTextField visitorsTextField1;
+    private javax.swing.JButton updateButton;
+    private javax.swing.JTextField visitorsTextField;
     // End of variables declaration//GEN-END:variables
 }

@@ -130,7 +130,6 @@ public class Conference  implements java.io.Serializable {
 
 
 
-
 }
 
 
