@@ -272,6 +272,9 @@ public class JFrameNewPlace extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
+        JFrameIndexAdmin j = new JFrameIndexAdmin();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_showConferenceButtonActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -280,6 +283,9 @@ public class JFrameNewPlace extends javax.swing.JFrame {
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
+        JFrameListUser j = new JFrameListUser();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_statisticButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed

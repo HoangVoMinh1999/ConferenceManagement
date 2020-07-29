@@ -4,9 +4,12 @@
  * and open the template in the editor.
  */
 package UI_User;
+
 import entities.*;
 import dao.*;
+import UI_admin.*;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author vomin
@@ -161,26 +164,31 @@ public class JFrameLogin extends javax.swing.JFrame {
         userDAO ud = new userDAO();
         User temp = ud.find(usernameTextField.getText());
         String password = null;
-        if (temp == null){
+        if (temp == null) {
             JOptionPane.showMessageDialog(null, "NULL !!!");
             return;
         }
         try {
             password = ud.hashPassword(String.valueOf(passwordTextField.getPassword()));
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if (temp.getPassword().equals(password) && temp.getState() != 2){
+        if (temp.getPassword().equals(password) && temp.getState() != 2) {
             JFrameIndexUser j = new JFrameIndexUser();
+            j.setCurrentUser(temp);
             j.setVisible(true);
             this.dispose();
-        } else if (temp.getPassword().equals(password) && temp.getState() == 2){
-            
-        }
-        else{
+        } else if (temp.getPassword().equals(password) && temp.getState() == 2) {
+            JFrameIndexAdmin j = new JFrameIndexAdmin();
+            System.out.println("Hello");
+            j.setCurrentUser(temp);
+            j.setVisible(true);
+            System.out.println("Hello 2");
+            this.dispose();
+        } else {
             JOptionPane.showMessageDialog(null, "Login fail !!!");
         }
-        
+
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed

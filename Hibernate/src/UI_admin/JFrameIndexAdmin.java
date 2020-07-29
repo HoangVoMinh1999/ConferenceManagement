@@ -23,6 +23,15 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private conferenceDAO cfDAO = new conferenceDAO();
     private placeDAO plDAO = new placeDAO();
     SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private User CurrentUser;
+
+    public void setCurrentUser(User CurrentUser) {
+        this.CurrentUser = CurrentUser;
+    }
+
+    public User getCurrentUser() {
+        return CurrentUser;
+    }
 
     /**
      * Creates new form JFrameIndexAdmin
@@ -516,8 +525,6 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameConference j = new JFrameConference();
-        playground.add(j);
     }//GEN-LAST:event_showConferenceButtonActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -648,6 +655,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JFrameIndexAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

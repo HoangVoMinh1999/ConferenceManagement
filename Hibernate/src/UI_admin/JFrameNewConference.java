@@ -161,7 +161,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addComponent(showConferenceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createSequentialGroup()
-                        .addContainerGap(22, Short.MAX_VALUE)
+                        .addContainerGap(12, Short.MAX_VALUE)
                         .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(avatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -354,9 +354,10 @@ public class JFrameNewConference extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(optionSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 942, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,6 +373,9 @@ public class JFrameNewConference extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
+        JFrameIndexAdmin j = new JFrameIndexAdmin();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_showConferenceButtonActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -380,6 +384,9 @@ public class JFrameNewConference extends javax.swing.JFrame {
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
+        JFrameListUser j = new JFrameListUser();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_statisticButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -413,8 +420,8 @@ public class JFrameNewConference extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Place chosen = plDAO.find(placeComboBox.getSelectedIndex()+1);
-        
+        Place chosen = plDAO.find(placeComboBox.getSelectedIndex() + 1);
+
         cf.setPlace(chosen);
         cf.setVisitors(Integer.parseInt(visitorsTextField.getText()));
         cf.setDetail(detailTextField.getText());
@@ -428,7 +435,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "Add conference unsuccessfully !!!");
         }
     }//GEN-LAST:event_saveButtonActionPerformed

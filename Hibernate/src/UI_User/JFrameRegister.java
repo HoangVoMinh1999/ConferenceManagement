@@ -192,9 +192,9 @@ public class JFrameRegister extends javax.swing.JFrame {
         registerButton1Layout.setVerticalGroup(
             registerButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(registerButton1Layout.createSequentialGroup()
-                .addGap(0, 100, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 100, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         getContentPane().add(registerButton1, java.awt.BorderLayout.CENTER);

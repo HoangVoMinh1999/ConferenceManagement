@@ -137,9 +137,6 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="F:\MidtermJAVA\icon\icons8_user_50px_1.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="AVATAR"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="iconTextGap" type="int" value="10"/>
@@ -268,6 +265,9 @@
                       </Table>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="listConferenceMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -300,13 +300,13 @@
                               <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="nameConferenceTextField" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="gernalInfoTextField" alignment="0" max="32767" attributes="0"/>
+                              <Component id="generalInfoTextField" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="startedTimeTextField" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="endedTimeTextField" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="visitorsTextField" alignment="0" max="32767" attributes="0"/>
+                              <Component id="placeTextField" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="detailTextArea" alignment="0" min="-2" pref="353" max="-2" attributes="0"/>
                               <Component id="visitorsTextField1" alignment="0" min="-2" pref="353" max="-2" attributes="0"/>
@@ -331,7 +331,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="gernalInfoTextField" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="generalInfoTextField" min="-2" pref="32" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -343,7 +343,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="visitorsTextField" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="placeTextField" min="-2" pref="32" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -381,9 +381,9 @@
                 <Property name="text" type="java.lang.String" value="Th&#xf4;ng tin chung:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="gernalInfoTextField">
+            <Component class="javax.swing.JTextField" name="generalInfoTextField">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gernalInfoTextFieldActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generalInfoTextFieldActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
@@ -420,10 +420,23 @@
                 <Property name="text" type="java.lang.String" value="N&#x1a1;i t&#x1ed5; ch&#x1ee9;c:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="visitorsTextField">
+            <Component class="javax.swing.JTextField" name="placeTextField">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="visitorsTextFieldActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="placeTextFieldActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="visitorsTextField1">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="visitorsTextField1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel8">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng kh&#xe1;ch tham gia:"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
@@ -440,7 +453,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="jTextArea1">
+                <Component class="javax.swing.JTextArea" name="detailTextField">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>
@@ -461,19 +474,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="joinButtonActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="visitorsTextField1">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="visitorsTextField1ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel8">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng kh&#xe1;ch tham gia:"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>
