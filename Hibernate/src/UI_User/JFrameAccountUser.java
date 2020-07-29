@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UI_admin;
+package UI_User;
 
 import dao.userDAO;
 import entities.User;
@@ -13,21 +13,20 @@ import javax.swing.JOptionPane;
  *
  * @author vomin
  */
-public class JFrameAccountAdmin extends javax.swing.JFrame {
-
+public class JFrameAccountUser extends javax.swing.JFrame {
     private userDAO usDAO = new userDAO();
     private User CurrentUser;
 
     /**
-     * Creates new form JFrameAccountAdmin
+     * Creates new form JFrameAccountUser
      */
-    public JFrameAccountAdmin() {
+    public JFrameAccountUser() {
         initComponents();
     }
 
-    public JFrameAccountAdmin(User temp) {
+    public JFrameAccountUser(User temp) {
         initComponents();
-        this.CurrentUser = temp;
+        CurrentUser = temp;
         this.nameTextField.setText(CurrentUser.getName());
         this.usernameTextField.setText(CurrentUser.getUsername());
         this.emailTextField.setText(CurrentUser.getEmail());
@@ -261,7 +260,7 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -348,7 +347,7 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexAdmin j = new JFrameIndexAdmin();
+        JFrameIndexUser j = new JFrameIndexUser();
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_showConferenceButtonActionPerformed
@@ -359,9 +358,6 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
-        JFrameListUser j = new JFrameListUser();
-        j.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_statisticButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -376,9 +372,21 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_emailTextFieldActionPerformed
 
+    private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameTextFieldActionPerformed
+
+    private void password1TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password1TextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_password1TextFieldActionPerformed
+
+    private void password2TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password2TextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_password2TextFieldActionPerformed
+
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
-        CurrentUser.setName(this.nameTextField.getText());
+                CurrentUser.setName(this.nameTextField.getText());
         CurrentUser.setEmail(this.emailTextField.getText());
         CurrentUser.setUsername(this.usernameTextField.getText());
         if (this.password1TextField.getText() == this.password1TextField.getText() && this.password1TextField.getText() != ""){
@@ -394,22 +402,10 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexAdmin j = new JFrameIndexAdmin(CurrentUser);
+        JFrameIndexUser j = new JFrameIndexUser(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameTextFieldActionPerformed
-
-    private void password1TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password1TextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_password1TextFieldActionPerformed
-
-    private void password2TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password2TextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_password2TextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -428,20 +424,20 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFrameAccountAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrameAccountUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFrameAccountAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrameAccountUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFrameAccountAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrameAccountUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFrameAccountAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrameAccountUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFrameAccountAdmin().setVisible(true);
+                new JFrameAccountUser().setVisible(true);
             }
         });
     }

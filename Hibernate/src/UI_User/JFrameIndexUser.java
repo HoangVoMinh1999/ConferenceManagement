@@ -17,27 +17,23 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JFrameIndexUser extends javax.swing.JFrame {
 
-    private String username;
     conferenceDAO cfDAO = new conferenceDAO();
     userDAO usDAO = new userDAO();
     placeDAO plDAO = new placeDAO();
     attendanceDAO atDAO = new attendanceDAO();
     private User CurrentUser;
 
-    public void setCurrentUser(User CurrentUser) {
-        this.CurrentUser = CurrentUser;
-    }
-
-    public User getCurrentUser() {
-        return CurrentUser;
-    }
-
     /**
      * Creates new form JFrameIndex
      */
-
     public JFrameIndexUser() {
         initComponents();
+        LoadData();
+    }
+
+    public JFrameIndexUser(User temp) {
+        initComponents();
+        CurrentUser = temp;
         LoadData();
     }
 
@@ -79,7 +75,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         showConferenceButton = new javax.swing.JButton();
         avatar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
         statisticButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
         playground = new javax.swing.JPanel();
@@ -129,13 +125,14 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         jLabel1.setInheritsPopupMenu(false);
         jLabel1.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton5.setText("Xem, chỉnh sửa thông tin cá nhân");
-        jButton5.setBorder(null);
-        jButton5.setContentAreaFilled(false);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        editButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        editButton.setForeground(new java.awt.Color(0, 51, 204));
+        editButton.setText("Xem, chỉnh sửa thông tin cá nhân");
+        editButton.setBorder(null);
+        editButton.setContentAreaFilled(false);
+        editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                editButtonActionPerformed(evt);
             }
         });
 
@@ -150,7 +147,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(avatarLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)))
+                        .addComponent(editButton)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         avatarLayout.setVerticalGroup(
@@ -159,7 +156,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
                 .addContainerGap(67, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(81, 81, 81)
-                .addComponent(jButton5)
+                .addComponent(editButton)
                 .addGap(27, 27, 27))
         );
 
@@ -470,13 +467,15 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        JFrameAccountUser j = new JFrameAccountUser(CurrentUser);
+        j.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_editButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
-        CurrentUser = null;
         JFrameLogin j = new JFrameLogin();
         j.setVisible(true);
         this.dispose();
@@ -529,7 +528,6 @@ public class JFrameIndexUser extends javax.swing.JFrame {
     private void listConferenceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listConferenceMouseClicked
         // TODO add your handling code here:
         int id = Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString());
-        System.out.println(id);
         Conference cf = cfDAO.find(id);
         Place pl = plDAO.find(cf.getPlace().getIdPlace());
         this.nameConferenceTextField.setText(cf.getName());
@@ -544,10 +542,9 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         dtm_visitors.addColumn("Tên hội nghị");
         dtm_visitors.addColumn("Tên khách mời");
         dtm_visitors.addColumn("status");
-        
-        AttendanceId ID = new AttendanceId(id,CurrentUser.getIdUser()); 
+
+        AttendanceId ID = new AttendanceId(id, CurrentUser.getIdUser());
         List<Attendance> ls_at = atDAO.findByUser(ID);
-        System.out.println(ls_at);
         for (Attendance temp : ls_at) {
             String status;
             if (temp.getStatusUser() == 1) {
@@ -556,9 +553,8 @@ public class JFrameIndexUser extends javax.swing.JFrame {
                 status = "Pending . . .";
             }
             Conference t1 = cfDAO.find(id);
-            dtm_visitors.addRow(new Object[]{t1.getName(),CurrentUser.getName(),status});
+            dtm_visitors.addRow(new Object[]{t1.getName(), CurrentUser.getName(), status});
         }
-        System.out.println("Hello 2");
         this.listVisitors.setModel(dtm_visitors);
     }//GEN-LAST:event_listConferenceMouseClicked
 
@@ -601,9 +597,9 @@ public class JFrameIndexUser extends javax.swing.JFrame {
     private javax.swing.JPanel avatar;
     private javax.swing.JScrollPane detailTextArea;
     private javax.swing.JTextArea detailTextField;
+    private javax.swing.JButton editButton;
     private javax.swing.JTextField endedTimeTextField;
     private javax.swing.JTextField generalInfoTextField;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

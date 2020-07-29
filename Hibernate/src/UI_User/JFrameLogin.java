@@ -165,7 +165,7 @@ public class JFrameLogin extends javax.swing.JFrame {
         User temp = ud.find(usernameTextField.getText());
         String password = null;
         if (temp == null) {
-            JOptionPane.showMessageDialog(null, "NULL !!!");
+            JOptionPane.showMessageDialog(null, "Login Fail !!!");
             return;
         }
         try {
@@ -174,16 +174,12 @@ public class JFrameLogin extends javax.swing.JFrame {
             e.printStackTrace();
         }
         if (temp.getPassword().equals(password) && temp.getState() != 2) {
-            JFrameIndexUser j = new JFrameIndexUser();
-            j.setCurrentUser(temp);
+            JFrameIndexUser j = new JFrameIndexUser(temp);
             j.setVisible(true);
             this.dispose();
         } else if (temp.getPassword().equals(password) && temp.getState() == 2) {
-            JFrameIndexAdmin j = new JFrameIndexAdmin();
-            System.out.println("Hello");
-            j.setCurrentUser(temp);
+            JFrameIndexAdmin j = new JFrameIndexAdmin(temp);
             j.setVisible(true);
-            System.out.println("Hello 2");
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Login fail !!!");

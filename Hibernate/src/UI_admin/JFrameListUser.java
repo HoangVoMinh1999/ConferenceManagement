@@ -5,17 +5,44 @@
  */
 package UI_admin;
 
+import dao.userDAO;
+import entities.User;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author vomin
  */
 public class JFrameListUser extends javax.swing.JFrame {
-
+    private userDAO usDAO = new userDAO();
     /**
      * Creates new form JFrameListUser
      */
     public JFrameListUser() {
         initComponents();
+        LoadData();
+    }
+
+    public void LoadData() {
+        DefaultTableModel dtm_visitors = new DefaultTableModel();
+        dtm_visitors.addColumn("Tên khách hàng");
+        dtm_visitors.addColumn("Email");
+        dtm_visitors.addColumn("Username");
+        dtm_visitors.addColumn("status");
+        List<User> ls_us = usDAO.findAll();
+        for (User temp:ls_us){
+            String status;
+            if (temp.getState() == 1){
+                status = "Active";
+            } else if (temp.getState() == 0){
+                status = "Deact";
+            } else{
+                status = "";
+            }
+            dtm_visitors.addRow(new Object[]{temp.getName(),temp.getEmail(),temp.getUsername(),status});
+        }
+        this.listUserTable.setModel(dtm_visitors);
     }
 
     /**
@@ -36,7 +63,7 @@ public class JFrameListUser extends javax.swing.JFrame {
         logoutButton = new javax.swing.JButton();
         playground = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        listUserTable = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
@@ -156,7 +183,7 @@ public class JFrameListUser extends javax.swing.JFrame {
         playground.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách người dùng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 3, 18))); // NOI18N
         playground.setPreferredSize(new java.awt.Dimension(1006, 800));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        listUserTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -167,7 +194,7 @@ public class JFrameListUser extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(listUserTable);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Sort by:");
@@ -178,6 +205,7 @@ public class JFrameListUser extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 200));
 
         jLabel3.setText("Avatar");
+        jLabel3.setBorder(new javax.swing.border.MatteBorder(null));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -362,9 +390,6 @@ public class JFrameListUser extends javax.swing.JFrame {
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
-        JFrameListUser j = new JFrameListUser();
-        j.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_statisticButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -445,7 +470,7 @@ public class JFrameListUser extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable listUserTable;
     private javax.swing.JButton logoutButton;
     private javax.swing.JTextField namePlaceTextField;
     private javax.swing.JTextField namePlaceTextField1;

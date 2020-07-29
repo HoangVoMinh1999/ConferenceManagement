@@ -244,9 +244,9 @@
                               <Component id="cancelButton" min="-2" pref="107" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="nameConferenceTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="nameTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="generalInfoTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="emailTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="usernameTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="password1TextField" alignment="0" max="32767" attributes="0"/>
@@ -266,11 +266,11 @@
                           <Group type="102" attributes="0">
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="nameConferenceTextField" min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="nameTextField" min="-2" pref="32" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="generalInfoTextField" min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="emailTextField" min="-2" pref="32" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -305,9 +305,9 @@
                 <Property name="text" type="java.lang.String" value="T&#xea;n ng&#x1b0;&#x1edd;i d&#xf9;ng"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="nameConferenceTextField">
+            <Component class="javax.swing.JTextField" name="nameTextField">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameConferenceTextFieldActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTextFieldActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
@@ -318,9 +318,9 @@
                 <Property name="text" type="java.lang.String" value="Email:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="generalInfoTextField">
+            <Component class="javax.swing.JTextField" name="emailTextField">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generalInfoTextFieldActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailTextFieldActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">

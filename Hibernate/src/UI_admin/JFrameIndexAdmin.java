@@ -22,16 +22,9 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
     private conferenceDAO cfDAO = new conferenceDAO();
     private placeDAO plDAO = new placeDAO();
+    private userDAO usDAO = new userDAO();
     SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private User CurrentUser;
-
-    public void setCurrentUser(User CurrentUser) {
-        this.CurrentUser = CurrentUser;
-    }
-
-    public User getCurrentUser() {
-        return CurrentUser;
-    }
 
     /**
      * Creates new form JFrameIndexAdmin
@@ -39,6 +32,13 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     public JFrameIndexAdmin() {
         initComponents();
         LoadData();
+    }
+
+    public JFrameIndexAdmin(User temp) {
+        initComponents();
+        LoadData();
+        this.CurrentUser = temp;
+        System.out.println(CurrentUser.getName());
     }
 
     public void LoadData() {
@@ -88,7 +88,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         showConferenceButton = new javax.swing.JButton();
         avatar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
         statisticButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
         playground = new javax.swing.JPanel();
@@ -141,14 +141,14 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         jLabel1.setInheritsPopupMenu(false);
         jLabel1.setPreferredSize(new java.awt.Dimension(30, 30));
 
-        jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(0, 51, 204));
-        jButton5.setText("Xem, chỉnh sửa thông tin cá nhân");
-        jButton5.setBorder(null);
-        jButton5.setContentAreaFilled(false);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        editButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        editButton.setForeground(new java.awt.Color(0, 51, 204));
+        editButton.setText("Xem, chỉnh sửa thông tin cá nhân");
+        editButton.setBorder(null);
+        editButton.setContentAreaFilled(false);
+        editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                editButtonActionPerformed(evt);
             }
         });
 
@@ -162,18 +162,18 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
                         .addGap(100, 100, 100)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(avatarLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addGap(19, 19, 19)
+                        .addComponent(editButton)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         avatarLayout.setVerticalGroup(
             avatarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(avatarLayout.createSequentialGroup()
                 .addContainerGap(67, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81)
-                .addComponent(jButton5)
-                .addGap(27, 27, 27))
+                .addGap(67, 67, 67)
+                .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
 
         statisticButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -527,9 +527,12 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_showConferenceButtonActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        JFrameAccountAdmin j = new JFrameAccountAdmin(CurrentUser);
+        j.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_editButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
@@ -581,6 +584,9 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
+        JFrameListUser j = new JFrameListUser();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_statisticButtonActionPerformed
 
     private void addConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addConferenceButtonActionPerformed
@@ -657,7 +663,6 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -673,9 +678,9 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JScrollPane detailTextArea;
     private javax.swing.JTextArea detailTextField;
+    private javax.swing.JButton editButton;
     private javax.swing.JTextField endedTimeTextField;
     private javax.swing.JTextField generalInfoTextField;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
