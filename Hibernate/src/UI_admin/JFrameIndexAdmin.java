@@ -13,7 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -27,6 +30,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private User CurrentUser;
     private attendanceDAO atDAO = new attendanceDAO();
+    DefaultTableModel dtm_con = new DefaultTableModel();
 
     /**
      * Creates new form JFrameIndexAdmin
@@ -45,7 +49,6 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
     public void LoadData() {
         //---Data of conference
-        DefaultTableModel dtm_con = new DefaultTableModel();
         dtm_con.addColumn("ID");
         dtm_con.addColumn("Tên");
         dtm_con.addColumn("Thông tin chung");
@@ -76,6 +79,13 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         this.placeComboBox.setModel(cbm);
     }
 
+    private void filter(String query) {
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(dtm_con);
+        this.listConference.setRowSorter(rowSorter);
+
+        rowSorter.setRowFilter(RowFilter.regexFilter(query));
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -98,6 +108,8 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         listConference = new javax.swing.JTable();
         addConferenceButton = new javax.swing.JButton();
         addPlaceButton = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        searchBar = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         nameConferenceTextField = new javax.swing.JTextField();
@@ -266,6 +278,21 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Tìm kiếm");
+
+        searchBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBarActionPerformed(evt);
+            }
+        });
+        searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchBarKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -277,16 +304,28 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(addConferenceButton)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addConferenceButton)
                     .addComponent(addPlaceButton))
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
@@ -532,14 +571,14 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
             playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(playgroundLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(playgroundLayout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -555,7 +594,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(playground, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE)
+                    .addComponent(playground, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 841, Short.MAX_VALUE)
                     .addComponent(optionSpace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -615,7 +654,36 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         cf.setDetail(detailTextField.getText());
         if (cfDAO.update(cf)) {
             JOptionPane.showMessageDialog(null, "Thêm hội nghị thành công !!!");
-            LoadData();
+            DefaultTableModel dtm_con = new DefaultTableModel();
+            dtm_con.addColumn("ID");
+            dtm_con.addColumn("Tên");
+            dtm_con.addColumn("Thông tin chung");
+            dtm_con.addColumn("Thời gian bắt đầu");
+            dtm_con.addColumn("Thời gian kết thúc");
+            dtm_con.addColumn("Số lượng khách mời");
+            dtm_con.addColumn("Chi tiết");
+            List<Conference> ls_cf = cfDAO.findAll();
+            for (Conference temp : ls_cf) {
+
+                dtm_con.addRow(new Object[]{temp.getIdConference(), temp.getName(), temp.getGeneralInfo(), temp.getStartedtime(), temp.getEndedtime(), temp.getVisitors(), temp.getDetail()});
+            }
+            this.listConference.setModel(dtm_con);
+
+            DefaultTableModel dtm_visitors = new DefaultTableModel();
+            dtm_visitors.addColumn("Tên hội nghị");
+            dtm_visitors.addColumn("Username");
+            dtm_visitors.addColumn("Tên khách mời");
+            dtm_visitors.addColumn("status");
+            this.listVisitors.setModel(dtm_visitors);
+
+            List<Place> ls_place = plDAO.findAll();
+            String[] data = new String[ls_place.size()];
+            for (int i = 0; i < ls_place.size(); i++) {
+                data[i] = ls_place.get(i).getName();
+            }
+            DefaultComboBoxModel cbm = new DefaultComboBoxModel(data);
+            this.placeComboBox.setModel(cbm);
+            this.listConference.setModel(dtm_con);
         } else {
             JOptionPane.showMessageDialog(null, "Thêm hội nghị không thành công !!!");
         }
@@ -689,7 +757,35 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         Conference cf = cfDAO.find(Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString()));
         if (cfDAO.delete(cf)) {
             JOptionPane.showMessageDialog(null, "Delete conference successfully !!!");
-            LoadData();
+            DefaultTableModel dtm_con = new DefaultTableModel();
+            dtm_con.addColumn("ID");
+            dtm_con.addColumn("Tên");
+            dtm_con.addColumn("Thông tin chung");
+            dtm_con.addColumn("Thời gian bắt đầu");
+            dtm_con.addColumn("Thời gian kết thúc");
+            dtm_con.addColumn("Số lượng khách mời");
+            dtm_con.addColumn("Chi tiết");
+            List<Conference> ls_cf = cfDAO.findAll();
+            for (Conference temp : ls_cf) {
+
+                dtm_con.addRow(new Object[]{temp.getIdConference(), temp.getName(), temp.getGeneralInfo(), temp.getStartedtime(), temp.getEndedtime(), temp.getVisitors(), temp.getDetail()});
+            }
+            this.listConference.setModel(dtm_con);
+
+            DefaultTableModel dtm_visitors = new DefaultTableModel();
+            dtm_visitors.addColumn("Tên hội nghị");
+            dtm_visitors.addColumn("Username");
+            dtm_visitors.addColumn("Tên khách mời");
+            dtm_visitors.addColumn("status");
+            this.listVisitors.setModel(dtm_visitors);
+
+            List<Place> ls_place = plDAO.findAll();
+            String[] data = new String[ls_place.size()];
+            for (int i = 0; i < ls_place.size(); i++) {
+                data[i] = ls_place.get(i).getName();
+            }
+            DefaultComboBoxModel cbm = new DefaultComboBoxModel(data);
+            this.placeComboBox.setModel(cbm);
             this.nameConferenceTextField.setText("");
             this.generalInfoTextField.setText("");
             this.startedTimeTextField.setText("");
@@ -786,6 +882,16 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_listVisitorsMouseClicked
 
+    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBarActionPerformed
+
+    private void searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBarKeyReleased
+        // TODO add your handling code here:
+        String query = this.searchBar.getText();
+        filter(query);
+    }//GEN-LAST:event_searchBarKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -834,6 +940,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField endedTimeTextField;
     private javax.swing.JTextField generalInfoTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -855,6 +962,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel optionSpace;
     private javax.swing.JComboBox<String> placeComboBox;
     private javax.swing.JPanel playground;
+    private javax.swing.JTextField searchBar;
     private javax.swing.JButton showConferenceButton;
     private javax.swing.JTextField startedTimeTextField;
     private javax.swing.JButton statisticButton;

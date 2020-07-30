@@ -10,7 +10,11 @@ import entities.*;
 import dao.*;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -23,6 +27,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
     placeDAO plDAO = new placeDAO();
     attendanceDAO atDAO = new attendanceDAO();
     private User CurrentUser;
+    DefaultTableModel dtm_con = new DefaultTableModel();
 
     /**
      * Creates new form JFrameIndex
@@ -35,12 +40,12 @@ public class JFrameIndexUser extends javax.swing.JFrame {
     public JFrameIndexUser(User temp) {
         initComponents();
         CurrentUser = temp;
+        DefaultTableModel dtm_con = new DefaultTableModel();
         LoadData();
     }
 
     public void LoadData() {
         //---Data of conference
-        DefaultTableModel dtm_con = new DefaultTableModel();
         dtm_con.addColumn("ID");
         dtm_con.addColumn("Tên");
         dtm_con.addColumn("Thông tin chung");
@@ -63,6 +68,13 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         this.listVisitors.setModel(dtm_visitors);
     }
 
+    private void filter(String query) {
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(dtm_con);
+        this.listConference.setRowSorter(rowSorter);
+
+        rowSorter.setRowFilter(RowFilter.regexFilter(query));
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -83,6 +95,8 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listConference = new javax.swing.JTable();
+        searchBar = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         nameConferenceTextField = new javax.swing.JTextField();
@@ -163,6 +177,11 @@ public class JFrameIndexUser extends javax.swing.JFrame {
 
         statisticButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         statisticButton.setText("THỐNG KÊ HỘI NGHỊ");
+        statisticButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statisticButtonActionPerformed(evt);
+            }
+        });
 
         logoutButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         logoutButton.setText("ĐĂNG XUẤT");
@@ -225,17 +244,43 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(listConference);
 
+        searchBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBarActionPerformed(evt);
+            }
+        });
+        searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchBarKeyReleased(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Tìm kiếm");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1048, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
@@ -542,7 +587,21 @@ public class JFrameIndexUser extends javax.swing.JFrame {
                     }
                 }
                 this.listVisitors.setModel(dtm_visitors);
-                LoadData();
+                DefaultTableModel dtm_con = new DefaultTableModel();
+                dtm_con.addColumn("ID");
+                dtm_con.addColumn("Tên");
+                dtm_con.addColumn("Thông tin chung");
+                dtm_con.addColumn("Thời gian bắt đầu");
+                dtm_con.addColumn("Thời gian kết thúc");
+                dtm_con.addColumn("Địa điểm");
+                dtm_con.addColumn("Số lượng khách mời");
+                dtm_con.addColumn("Chi tiết");
+                List<Conference> ls_cf = cfDAO.findAll();
+                for (Conference temp : ls_cf) {
+                    Place pl = plDAO.find(temp.getPlace().getIdPlace());
+                    dtm_con.addRow(new Object[]{temp.getIdConference(), temp.getName(), temp.getGeneralInfo(), temp.getStartedtime(), temp.getEndedtime(), pl.getName(), temp.getVisitors(), temp.getDetail()});
+                }
+                this.listConference.setModel(dtm_con);
             } else {
                 JOptionPane.showMessageDialog(null, "Tham gia không thành công !!!");
             }
@@ -570,7 +629,21 @@ public class JFrameIndexUser extends javax.swing.JFrame {
                     }
                 }
                 this.listVisitors.setModel(dtm_visitors);
-                LoadData();
+                DefaultTableModel dtm_con = new DefaultTableModel();
+                dtm_con.addColumn("ID");
+                dtm_con.addColumn("Tên");
+                dtm_con.addColumn("Thông tin chung");
+                dtm_con.addColumn("Thời gian bắt đầu");
+                dtm_con.addColumn("Thời gian kết thúc");
+                dtm_con.addColumn("Địa điểm");
+                dtm_con.addColumn("Số lượng khách mời");
+                dtm_con.addColumn("Chi tiết");
+                List<Conference> ls_cf = cfDAO.findAll();
+                for (Conference temp : ls_cf) {
+                    Place pl = plDAO.find(temp.getPlace().getIdPlace());
+                    dtm_con.addRow(new Object[]{temp.getIdConference(), temp.getName(), temp.getGeneralInfo(), temp.getStartedtime(), temp.getEndedtime(), pl.getName(), temp.getVisitors(), temp.getDetail()});
+                }
+                this.listConference.setModel(dtm_con);
             } else {
                 JOptionPane.showMessageDialog(null, "Hủy tham gia không thành công !!!");
             }
@@ -623,6 +696,23 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         this.listVisitors.setModel(dtm_visitors);
     }//GEN-LAST:event_listConferenceMouseClicked
 
+    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBarActionPerformed
+
+    private void searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBarKeyReleased
+        // TODO add your handling code here:
+        String query = this.searchBar.getText();
+        filter(query);
+    }//GEN-LAST:event_searchBarKeyReleased
+
+    private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
+        // TODO add your handling code here:
+        JFrameStatistic j = new JFrameStatistic(CurrentUser); 
+        j.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_statisticButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -666,6 +756,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
     private javax.swing.JTextField endedTimeTextField;
     private javax.swing.JTextField generalInfoTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -688,6 +779,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
     private javax.swing.JPanel optionSpace;
     private javax.swing.JTextField placeTextField;
     private javax.swing.JPanel playground;
+    private javax.swing.JTextField searchBar;
     private javax.swing.JButton showConferenceButton;
     private javax.swing.JTextField startedTimeTextField;
     private javax.swing.JButton statisticButton;

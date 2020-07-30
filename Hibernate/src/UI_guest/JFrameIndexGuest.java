@@ -11,7 +11,10 @@ import entities.*;
 import java.util.List;
 import dao.*;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -22,6 +25,7 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
     private userDAO usDAO = new userDAO();
     private conferenceDAO cfDAO = new conferenceDAO();
     private attendanceDAO atDAO = new attendanceDAO();
+    DefaultTableModel dtm_con = new DefaultTableModel();
     /**
      * Creates new form JFrameIndexGuest
      */
@@ -31,7 +35,6 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
     }
     public void LoadData() {
         //---Data of conference
-        DefaultTableModel dtm_con = new DefaultTableModel();
         dtm_con.addColumn("ID");
         dtm_con.addColumn("Tên");
         dtm_con.addColumn("Thông tin chung");
@@ -52,6 +55,13 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
         dtm_visitors.addColumn("Tên khách mời");
         this.listVisitors.setModel(dtm_visitors);
     }
+    
+    private void filter(String query){
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(dtm_con);
+        this.listConference.setRowSorter(rowSorter);
+        
+        rowSorter.setRowFilter(RowFilter.regexFilter(query));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,13 +75,14 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
         showConferenceButton = new javax.swing.JButton();
         avatar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        statisticButton = new javax.swing.JButton();
         loginButton = new javax.swing.JButton();
         registerButton = new javax.swing.JButton();
         playground = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listConference = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        searchBar = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         nameConferenceTextField = new javax.swing.JTextField();
@@ -131,9 +142,6 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
                 .addContainerGap(101, Short.MAX_VALUE))
         );
 
-        statisticButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        statisticButton.setText("THỐNG KÊ HỘI NGHỊ");
-
         loginButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         loginButton.setText("ĐĂNG NHẬP");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +166,6 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(showConferenceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(statisticButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -174,11 +181,9 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
                 .addComponent(avatar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66)
                 .addComponent(showConferenceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(statisticButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(44, 44, 44)
                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(47, 47, 47)
                 .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -206,17 +211,41 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(listConference);
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Tìm kiếm");
+
+        searchBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBarActionPerformed(evt);
+            }
+        });
+        searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchBarKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 928, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
@@ -426,7 +455,7 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(playground, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 773, Short.MAX_VALUE)
+                    .addComponent(playground, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE)
                     .addComponent(optionSpace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -509,6 +538,16 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_registerButtonActionPerformed
 
+    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBarActionPerformed
+
+    private void searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBarKeyReleased
+        // TODO add your handling code here:
+        String query = this.searchBar.getText();
+        filter(query);
+    }//GEN-LAST:event_searchBarKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -551,6 +590,7 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
     private javax.swing.JTextField endedTimeTextField;
     private javax.swing.JTextField generalInfoTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -573,9 +613,9 @@ public class JFrameIndexGuest extends javax.swing.JFrame {
     private javax.swing.JTextField placeTextField;
     private javax.swing.JPanel playground;
     private javax.swing.JButton registerButton;
+    private javax.swing.JTextField searchBar;
     private javax.swing.JButton showConferenceButton;
     private javax.swing.JTextField startedTimeTextField;
-    private javax.swing.JButton statisticButton;
     private javax.swing.JTextField visitorsTextField1;
     // End of variables declaration//GEN-END:variables
 }
