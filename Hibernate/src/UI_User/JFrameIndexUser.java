@@ -5,6 +5,7 @@
  */
 package UI_User;
 
+import UI_guest.JFrameIndexGuest;
 import entities.*;
 import dao.*;
 import java.util.List;
@@ -205,6 +206,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
+        listConference.setAutoCreateRowSorter(true);
         listConference.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -375,6 +377,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "List of visitors", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18))); // NOI18N
 
+        listVisitors.setAutoCreateRowSorter(true);
         listVisitors.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -476,7 +479,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
-        JFrameLogin j = new JFrameLogin();
+        JFrameIndexGuest j = new JFrameIndexGuest();
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_logoutButtonActionPerformed
@@ -514,11 +517,65 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         Conference cf = cfDAO.find(idConference);
         AttendanceId ID = new AttendanceId(idConference, CurrentUser.getIdUser());
         Attendance a = new Attendance(ID, cf, CurrentUser, 0);
-        if (atDAO.save(a)) {
-            JOptionPane.showMessageDialog(null, "Tham gia thành công !!!");
+        if (atDAO.find(ID) == null) {
+            if (CurrentUser.getState() == 0) {
+                JOptionPane.showMessageDialog(null, "Tham gia không thành công !!!");
+            } else if (CurrentUser.getState() == 1 && atDAO.save(a)) {
+                JOptionPane.showMessageDialog(null, "Tham gia thành công !!!");
+                DefaultTableModel dtm_visitors = new DefaultTableModel();
+                dtm_visitors.addColumn("Tên hội nghị");
+                dtm_visitors.addColumn("Tên khách mời");
+                dtm_visitors.addColumn("Trạng thái");
+
+                List<Attendance> ls_at = atDAO.findAll();
+                for (Attendance temp : ls_at) {
+                    Conference t1 = cfDAO.find(idConference);
+                    User u1 = usDAO.findByID(temp.getId().getIdUser());
+                    if (t1.getIdConference() == temp.getId().getIdConference()) {
+                        String status;
+                        if (temp.getStatusUser() == 1) {
+                            status = "Đã tham gia";
+                        } else {
+                            status = "Đang chờ duyệt...";
+                        }
+                        dtm_visitors.addRow(new Object[]{t1.getName(), u1.getName(), status});
+                    }
+                }
+                this.listVisitors.setModel(dtm_visitors);
+                LoadData();
+            } else {
+                JOptionPane.showMessageDialog(null, "Tham gia không thành công !!!");
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Tham gia không thành công !!!");
+            Attendance t = atDAO.find(ID);
+            if (atDAO.delete(t)) {
+                JOptionPane.showMessageDialog(null, "Hủy tham gia thành công !!!");
+                DefaultTableModel dtm_visitors = new DefaultTableModel();
+                dtm_visitors.addColumn("Tên hội nghị");
+                dtm_visitors.addColumn("Tên khách mời");
+                dtm_visitors.addColumn("Trạng thái");
+
+                List<Attendance> ls_at = atDAO.findAll();
+                for (Attendance temp : ls_at) {
+                    Conference t1 = cfDAO.find(idConference);
+                    User u1 = usDAO.findByID(temp.getId().getIdUser());
+                    if (t1.getIdConference() == temp.getId().getIdConference()) {
+                        String status;
+                        if (temp.getStatusUser() == 1) {
+                            status = "Đã tham gia";
+                        } else {
+                            status = "Đang chờ duyệt...";
+                        }
+                        dtm_visitors.addRow(new Object[]{t1.getName(), u1.getName(), status});
+                    }
+                }
+                this.listVisitors.setModel(dtm_visitors);
+                LoadData();
+            } else {
+                JOptionPane.showMessageDialog(null, "Hủy tham gia không thành công !!!");
+            }
         }
+
     }//GEN-LAST:event_joinButtonActionPerformed
 
     private void visitorsTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorsTextField1ActionPerformed
@@ -538,22 +595,30 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         this.visitorsTextField1.setText(String.valueOf(cf.getVisitors()));
         this.detailTextField.setText(cf.getDetail());
 
+        AttendanceId ID = new AttendanceId(id, CurrentUser.getIdUser());
+        if (atDAO.find(ID) != null) {
+            this.joinButton.setText("Hủy tham gia");
+        } else {
+            this.joinButton.setText("Tham gia hội nghị");
+        }
         DefaultTableModel dtm_visitors = new DefaultTableModel();
         dtm_visitors.addColumn("Tên hội nghị");
         dtm_visitors.addColumn("Tên khách mời");
-        dtm_visitors.addColumn("status");
+        dtm_visitors.addColumn("Trạng thái");
 
-        AttendanceId ID = new AttendanceId(id, CurrentUser.getIdUser());
-        List<Attendance> ls_at = atDAO.findByUser(ID);
+        List<Attendance> ls_at = atDAO.findAll();
         for (Attendance temp : ls_at) {
-            String status;
-            if (temp.getStatusUser() == 1) {
-                status = "Joined";
-            } else {
-                status = "Pending . . .";
-            }
             Conference t1 = cfDAO.find(id);
-            dtm_visitors.addRow(new Object[]{t1.getName(), CurrentUser.getName(), status});
+            User u1 = usDAO.findByID(temp.getId().getIdUser());
+            if (t1.getIdConference() == temp.getId().getIdConference()) {
+                String status;
+                if (temp.getStatusUser() == 1) {
+                    status = "Đã tham gia";
+                } else {
+                    status = "Đang chờ duyệt...";
+                }
+                dtm_visitors.addRow(new Object[]{t1.getName(), u1.getName(), status});
+            }
         }
         this.listVisitors.setModel(dtm_visitors);
     }//GEN-LAST:event_listConferenceMouseClicked

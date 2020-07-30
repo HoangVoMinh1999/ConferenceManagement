@@ -5,9 +5,12 @@
  */
 package UI_admin;
 
+import UI_guest.JFrameIndexGuest;
 import dao.userDAO;
 import entities.User;
 import java.util.List;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,7 +18,9 @@ import javax.swing.table.DefaultTableModel;
  * @author vomin
  */
 public class JFrameListUser extends javax.swing.JFrame {
+
     private userDAO usDAO = new userDAO();
+
     /**
      * Creates new form JFrameListUser
      */
@@ -31,18 +36,22 @@ public class JFrameListUser extends javax.swing.JFrame {
         dtm_visitors.addColumn("Username");
         dtm_visitors.addColumn("status");
         List<User> ls_us = usDAO.findAll();
-        for (User temp:ls_us){
+        for (User temp : ls_us) {
             String status;
-            if (temp.getState() == 1){
+            if (temp.getState() == 1) {
                 status = "Active";
-            } else if (temp.getState() == 0){
+            } else if (temp.getState() == 0) {
                 status = "Deact";
-            } else{
+            } else {
                 status = "";
             }
-            dtm_visitors.addRow(new Object[]{temp.getName(),temp.getEmail(),temp.getUsername(),status});
+            dtm_visitors.addRow(new Object[]{temp.getName(), temp.getEmail(), temp.getUsername(), status});
         }
         this.listUserTable.setModel(dtm_visitors);
+        
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(this.yesButton);
+        bg.add(this.noButton);
     }
 
     /**
@@ -70,12 +79,12 @@ public class JFrameListUser extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        namePlaceTextField = new javax.swing.JTextField();
+        nameTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        namePlaceTextField1 = new javax.swing.JTextField();
+        emailTextField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        yesButton = new javax.swing.JRadioButton();
+        noButton = new javax.swing.JRadioButton();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
@@ -183,6 +192,7 @@ public class JFrameListUser extends javax.swing.JFrame {
         playground.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách người dùng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 3, 18))); // NOI18N
         playground.setPreferredSize(new java.awt.Dimension(1006, 800));
 
+        listUserTable.setAutoCreateRowSorter(true);
         listUserTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -194,6 +204,11 @@ public class JFrameListUser extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        listUserTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listUserTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(listUserTable);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -221,30 +236,30 @@ public class JFrameListUser extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Tên khách hàng:");
 
-        namePlaceTextField.addActionListener(new java.awt.event.ActionListener() {
+        nameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                namePlaceTextFieldActionPerformed(evt);
+                nameTextFieldActionPerformed(evt);
             }
         });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Email:");
 
-        namePlaceTextField1.addActionListener(new java.awt.event.ActionListener() {
+        emailTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                namePlaceTextField1ActionPerformed(evt);
+                emailTextFieldActionPerformed(evt);
             }
         });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Trạng thái:");
 
-        jRadioButton1.setText("Sẵn sàng");
+        yesButton.setText("Sẵn sàng");
 
-        jRadioButton2.setText("Không sẵn sàng");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        noButton.setText("Không sẵn sàng");
+        noButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                noButtonActionPerformed(evt);
             }
         });
 
@@ -278,21 +293,21 @@ public class JFrameListUser extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(namePlaceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addGap(40, 40, 40))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(namePlaceTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                                 .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton1)
+                                .addComponent(yesButton)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2)
+                                .addComponent(noButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(45, 45, 45))))
@@ -307,19 +322,19 @@ public class JFrameListUser extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(namePlaceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(saveButton))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(namePlaceTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cancelButton))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2))))
+                            .addComponent(yesButton)
+                            .addComponent(noButton))))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
@@ -394,22 +409,40 @@ public class JFrameListUser extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
+        JFrameIndexGuest j = new JFrameIndexGuest();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void namePlaceTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namePlaceTextFieldActionPerformed
+    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_namePlaceTextFieldActionPerformed
+    }//GEN-LAST:event_nameTextFieldActionPerformed
 
-    private void namePlaceTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namePlaceTextField1ActionPerformed
+    private void emailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_namePlaceTextField1ActionPerformed
+    }//GEN-LAST:event_emailTextFieldActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void noButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_noButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
+        String username = this.listUserTable.getValueAt(this.listUserTable.getSelectedRow(), 2).toString();
+        User temp = usDAO.find(username);
+        if (temp.getState() != 2){
+            if (this.yesButton.isSelected()){
+                temp.setState(1);
+            } else {
+                temp.setState(0);
+            }
+        }
+        if (usDAO.update(temp)){
+            JOptionPane.showMessageDialog(null, "Update successfully");
+            LoadData();
+        } else {
+            JOptionPane.showMessageDialog(null, "Update unsuccessfully");
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -418,6 +451,22 @@ public class JFrameListUser extends javax.swing.JFrame {
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void listUserTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listUserTableMouseClicked
+        // TODO add your handling code here:
+        String username = this.listUserTable.getValueAt(this.listUserTable.getSelectedRow(), 2).toString();
+        User temp = usDAO.find(username);
+        this.nameTextField.setText(temp.getName());
+        this.emailTextField.setText(temp.getEmail());
+        if (temp.getState() == 1){
+            this.yesButton.setSelected(true);
+            
+        } else if (temp.getState() == 0 ){
+            this.noButton.setSelected(true);
+        } else{
+            this.yesButton.setSelected(true);
+        }
+    }//GEN-LAST:event_listUserTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -458,6 +507,7 @@ public class JFrameListUser extends javax.swing.JFrame {
     private javax.swing.JPanel avatar;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton editButton;
+    private javax.swing.JTextField emailTextField;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -467,17 +517,16 @@ public class JFrameListUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable listUserTable;
     private javax.swing.JButton logoutButton;
-    private javax.swing.JTextField namePlaceTextField;
-    private javax.swing.JTextField namePlaceTextField1;
+    private javax.swing.JTextField nameTextField;
+    private javax.swing.JRadioButton noButton;
     private javax.swing.JPanel optionSpace;
     private javax.swing.JPanel playground;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton showConferenceButton;
     private javax.swing.JButton statisticButton;
+    private javax.swing.JRadioButton yesButton;
     // End of variables declaration//GEN-END:variables
 }

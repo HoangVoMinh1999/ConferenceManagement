@@ -48,6 +48,19 @@ public class userDAO {
             session.close();
         }
     }
+    
+        public User findByID(int id) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction trans = session.beginTransaction();
+        try {
+            return (User) session.createCriteria(User.class).add(Restrictions.eq("idUser", id)).uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
 
     public boolean delete(User cf) {
         session = HibernateUtil.getSessionFactory().openSession();

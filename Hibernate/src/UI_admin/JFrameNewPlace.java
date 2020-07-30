@@ -5,6 +5,7 @@
  */
 package UI_admin;
 
+import UI_guest.JFrameIndexGuest;
 import entities.*;
 import dao.*;
 import javax.swing.JOptionPane;
@@ -290,6 +291,9 @@ public class JFrameNewPlace extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
+        JFrameIndexGuest j = new JFrameIndexGuest();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

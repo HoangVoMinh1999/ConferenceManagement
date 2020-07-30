@@ -32,11 +32,11 @@ public class attendanceDAO {
         }
     }
 
-    public List<Attendance> findByConference(AttendanceId id) {
+    public Attendance find(AttendanceId id) {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             Transaction trans = session.beginTransaction();
-            return session.createCriteria(Attendance.class).add(Restrictions.eq("idConference", id.getIdConference())).list();
+            return (Attendance) session.createCriteria(Attendance.class).add(Restrictions.eq("id", id)).uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

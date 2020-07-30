@@ -5,6 +5,7 @@
  */
 package UI_admin;
 
+import UI_guest.*;
 import dao.userDAO;
 import entities.User;
 import javax.swing.JOptionPane;
@@ -31,6 +32,7 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
         this.nameTextField.setText(CurrentUser.getName());
         this.usernameTextField.setText(CurrentUser.getUsername());
         this.emailTextField.setText(CurrentUser.getEmail());
+        this.usernameTextField.disable();
     }
 
     /**
@@ -366,6 +368,10 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
+        CurrentUser = null;
+        JFrameIndexGuest j = new JFrameIndexGuest();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed

@@ -5,6 +5,7 @@
  */
 package UI_admin;
 
+import UI_guest.JFrameIndexGuest;
 import entities.*;
 import dao.*;
 import java.lang.reflect.Array;
@@ -391,6 +392,9 @@ public class JFrameNewConference extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
+        JFrameIndexGuest j = new JFrameIndexGuest();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void nameConferenceTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameConferenceTextFieldActionPerformed

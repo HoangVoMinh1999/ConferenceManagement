@@ -173,7 +173,7 @@ public class JFrameLogin extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (temp.getPassword().equals(password) && temp.getState() != 2) {
+        if (temp.getPassword().equals(password) && temp.getState() == 1) {
             JFrameIndexUser j = new JFrameIndexUser(temp);
             j.setVisible(true);
             this.dispose();

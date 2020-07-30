@@ -6,6 +6,7 @@
 package UI_admin;
 
 import UI_User.*;
+import UI_guest.JFrameIndexGuest;
 import entities.*;
 import dao.*;
 import java.text.SimpleDateFormat;
@@ -25,6 +26,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private userDAO usDAO = new userDAO();
     SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private User CurrentUser;
+    private attendanceDAO atDAO = new attendanceDAO();
 
     /**
      * Creates new form JFrameIndexAdmin
@@ -59,10 +61,10 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         this.listConference.setModel(dtm_con);
 
         DefaultTableModel dtm_visitors = new DefaultTableModel();
-        dtm_visitors.addColumn("Stt");
+        dtm_visitors.addColumn("Tên hội nghị");
+        dtm_visitors.addColumn("Username");
         dtm_visitors.addColumn("Tên khách mời");
-        dtm_visitors.addColumn("Trạng thái");
-        dtm_visitors.addColumn("");
+        dtm_visitors.addColumn("status");
         this.listVisitors.setModel(dtm_visitors);
 
         List<Place> ls_place = plDAO.findAll();
@@ -72,7 +74,6 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         }
         DefaultComboBoxModel cbm = new DefaultComboBoxModel(data);
         this.placeComboBox.setModel(cbm);
-
     }
 
     /**
@@ -118,6 +119,8 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listVisitors = new javax.swing.JTable();
+        confirmButton = new javax.swing.JButton();
+        denyButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
 
@@ -219,13 +222,14 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
                 .addComponent(statisticButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         playground.setPreferredSize(new java.awt.Dimension(1006, 800));
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
+        listConference.setAutoCreateRowSorter(true);
         listConference.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -282,7 +286,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addConferenceButton)
                     .addComponent(addPlaceButton))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
@@ -432,6 +436,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "List of visitors", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18))); // NOI18N
 
+        listVisitors.setAutoCreateRowSorter(true);
         listVisitors.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -443,23 +448,56 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        listVisitors.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listVisitorsMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(listVisitors);
+
+        confirmButton.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        confirmButton.setForeground(new java.awt.Color(0, 102, 204));
+        confirmButton.setText("Xác nhận");
+        confirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmButtonActionPerformed(evt);
+            }
+        });
+
+        denyButton.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        denyButton.setForeground(new java.awt.Color(255, 0, 0));
+        denyButton.setText("Từ chối");
+        denyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                denyButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(denyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(confirmButton)
+                    .addComponent(denyButton))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
@@ -473,7 +511,9 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout playgroundLayout = new javax.swing.GroupLayout(playground);
@@ -491,13 +531,13 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         playgroundLayout.setVerticalGroup(
             playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(playgroundLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(playgroundLayout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(36, 36, 36)
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
@@ -515,7 +555,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(playground, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE)
+                    .addComponent(playground, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE)
                     .addComponent(optionSpace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -536,6 +576,9 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         // TODO add your handling code here:
+        JFrameIndexGuest j = new JFrameIndexGuest();
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void nameConferenceTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameConferenceTextFieldActionPerformed
@@ -571,10 +614,10 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         cf.setVisitors(Integer.parseInt(visitorsTextField.getText()));
         cf.setDetail(detailTextField.getText());
         if (cfDAO.update(cf)) {
-            JOptionPane.showMessageDialog(null, "Add conference successfully !!!");
+            JOptionPane.showMessageDialog(null, "Thêm hội nghị thành công !!!");
             LoadData();
         } else {
-            JOptionPane.showMessageDialog(null, "Add conference unsuccessfully !!!");
+            JOptionPane.showMessageDialog(null, "Thêm hội nghị không thành công !!!");
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -617,6 +660,28 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         this.placeComboBox.setSelectedIndex(pl.getIdPlace() - 1);
         this.visitorsTextField.setText(String.valueOf(cf.getVisitors()));
         this.detailTextField.setText(cf.getDetail());
+
+        DefaultTableModel dtm_visitors = new DefaultTableModel();
+        dtm_visitors.addColumn("Tên hội nghị");
+        dtm_visitors.addColumn("Username");
+        dtm_visitors.addColumn("Tên khách mời");
+        dtm_visitors.addColumn("Trạng thái");
+
+        List<Attendance> ls_at = atDAO.findAll();
+        for (Attendance temp : ls_at) {
+            Conference t1 = cfDAO.find(id);
+            User u1 = usDAO.findByID(temp.getId().getIdUser());
+            if (t1.getIdConference() == temp.getId().getIdConference()) {
+                String status;
+                if (temp.getStatusUser() == 1) {
+                    status = "Đã tham gia";
+                } else {
+                    status = "Đang chờ duyệt...";
+                }
+                dtm_visitors.addRow(new Object[]{t1.getName(), u1.getUsername(), u1.getName(), status});
+            }
+        }
+        this.listVisitors.setModel(dtm_visitors);
     }//GEN-LAST:event_listConferenceMouseClicked
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -635,6 +700,91 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Delete conference unsuccessfully !!!");
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        // TODO add your handling code here:
+        String username = this.listVisitors.getValueAt(this.listVisitors.getSelectedRow(), 1).toString();
+        int id = Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString());
+        User us = usDAO.find(username);
+        System.out.println(id);
+        System.out.println(us.getIdUser());
+        AttendanceId ID = new AttendanceId(id, us.getIdUser());
+        Attendance temp = atDAO.find(ID);
+        temp.setStatusUser(1);
+        if (atDAO.update(temp)) {
+            JOptionPane.showMessageDialog(null, "Đã chấp nhận yêu cầu tham gia");
+        } else {
+            JOptionPane.showMessageDialog(null, "Chấp nhận không thành công");
+        }
+        DefaultTableModel dtm_visitors = new DefaultTableModel();
+        dtm_visitors.addColumn("Tên hội nghị");
+        dtm_visitors.addColumn("Username");
+        dtm_visitors.addColumn("Tên khách mời");
+        dtm_visitors.addColumn("Trạng thái");
+
+        List<Attendance> ls_at = atDAO.findAll();
+        for (Attendance i : ls_at) {
+            Conference t1 = cfDAO.find(id);
+            User u1 = usDAO.findByID(i.getId().getIdUser());
+            if (t1.getIdConference() == i.getId().getIdConference()) {
+                String status;
+                if (i.getStatusUser() == 1) {
+                    status = "Đã tham gia";
+                } else {
+                    status = "Đang chờ duyệt...";
+                }
+                dtm_visitors.addRow(new Object[]{t1.getName(), u1.getUsername(), u1.getName(), status});
+            }
+        }
+        this.listVisitors.setModel(dtm_visitors);
+    }//GEN-LAST:event_confirmButtonActionPerformed
+
+    private void denyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_denyButtonActionPerformed
+        // TODO add your handling code here:
+        String username = this.listVisitors.getValueAt(this.listVisitors.getSelectedRow(), 1).toString();
+        int id = Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString());
+        User us = usDAO.find(username);
+        AttendanceId ID = new AttendanceId(id, us.getIdUser());
+        Attendance temp = atDAO.find(ID);
+        temp.setStatusUser(1);
+        if (atDAO.delete(temp)) {
+            JOptionPane.showMessageDialog(null, "Đã từ chối yêu cầu tham gia");
+        } else {
+            JOptionPane.showMessageDialog(null, "Từ chối yêu cầu không thành công");
+        }
+        DefaultTableModel dtm_visitors = new DefaultTableModel();
+        dtm_visitors.addColumn("Tên hội nghị");
+        dtm_visitors.addColumn("Username");
+        dtm_visitors.addColumn("Tên khách mời");
+        dtm_visitors.addColumn("Trạng thái");
+
+        List<Attendance> ls_at = atDAO.findAll();
+        for (Attendance i : ls_at) {
+            Conference t1 = cfDAO.find(id);
+            User u1 = usDAO.findByID(i.getId().getIdUser());
+            if (t1.getIdConference() == i.getId().getIdConference()) {
+                String status;
+                if (i.getStatusUser() == 1) {
+                    status = "Đã tham gia";
+                } else {
+                    status = "Đang chờ duyệt...";
+                }
+                dtm_visitors.addRow(new Object[]{t1.getName(), u1.getUsername(), u1.getName(), status});
+            }
+        }
+        this.listVisitors.setModel(dtm_visitors);
+    }//GEN-LAST:event_denyButtonActionPerformed
+
+    private void listVisitorsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listVisitorsMouseClicked
+        // TODO add your handling code here:
+        String status = this.listVisitors.getValueAt(this.listVisitors.getSelectedRow(), 3).toString();
+        if (status == "Đã tham gia") {
+            this.confirmButton.setEnabled(false);
+        } else {
+            System.out.println("Hello");
+            this.confirmButton.setEnabled(true);
+        }
+    }//GEN-LAST:event_listVisitorsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -675,7 +825,9 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private javax.swing.JButton addConferenceButton;
     private javax.swing.JButton addPlaceButton;
     private javax.swing.JPanel avatar;
+    private javax.swing.JButton confirmButton;
     private javax.swing.JButton deleteButton;
+    private javax.swing.JButton denyButton;
     private javax.swing.JScrollPane detailTextArea;
     private javax.swing.JTextArea detailTextField;
     private javax.swing.JButton editButton;
