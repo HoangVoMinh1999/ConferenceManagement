@@ -10,6 +10,9 @@ import UI_guest.JFrameIndexGuest;
 import entities.*;
 import dao.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -31,6 +34,9 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private User CurrentUser;
     private attendanceDAO atDAO = new attendanceDAO();
     DefaultTableModel dtm_con = new DefaultTableModel();
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
 
     /**
      * Creates new form JFrameIndexAdmin
@@ -138,7 +144,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        optionSpace.setBackground(new java.awt.Color(66, 65, 65));
+        optionSpace.setBackground(new java.awt.Color(0, 0, 153));
 
         showConferenceButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         showConferenceButton.setText("DANH SÁCH HỘI NGHỊ");
@@ -239,7 +245,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
         playground.setPreferredSize(new java.awt.Dimension(1006, 800));
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 153));
 
         listConference.setAutoCreateRowSorter(true);
         listConference.setModel(new javax.swing.table.DefaultTableModel(
@@ -314,21 +320,19 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addConferenceButton)
-                    .addComponent(addPlaceButton))
-                .addContainerGap())
+                    .addComponent(addPlaceButton)
+                    .addComponent(addConferenceButton))
+                .addGap(2, 2, 2))
         );
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Infomation of conference", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18))); // NOI18N
         jPanel2.setForeground(new java.awt.Color(204, 204, 204));
 
@@ -639,6 +643,12 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
         Conference cf = cfDAO.find(Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString()));
+        Place chosen = plDAO.find(placeComboBox.getSelectedIndex() + 1);
+        if (!checkAddConference(cf,chosen,this.startedTimeTextField.getText(),this.endedTimeTextField.getText())){
+            JOptionPane.showMessageDialog(null, "Cập nhật nghị không thành công !!! Thời gian đó có sk đang diễn ra");
+            return;
+        }
+      
         cf.setName(nameConferenceTextField.getText());
         cf.setGeneralInfo(generalInfoTextField.getText());
         try {
@@ -647,13 +657,12 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Place chosen = plDAO.find(placeComboBox.getSelectedIndex() + 1);
 
         cf.setPlace(chosen);
         cf.setVisitors(Integer.parseInt(visitorsTextField.getText()));
         cf.setDetail(detailTextField.getText());
         if (cfDAO.update(cf)) {
-            JOptionPane.showMessageDialog(null, "Thêm hội nghị thành công !!!");
+            JOptionPane.showMessageDialog(null, "Cập nhật hội nghị thành công !!!");
             DefaultTableModel dtm_con = new DefaultTableModel();
             dtm_con.addColumn("ID");
             dtm_con.addColumn("Tên");
@@ -685,7 +694,7 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
             this.placeComboBox.setModel(cbm);
             this.listConference.setModel(dtm_con);
         } else {
-            JOptionPane.showMessageDialog(null, "Thêm hội nghị không thành công !!!");
+            JOptionPane.showMessageDialog(null, "Cập nhật nghị không thành công !!!");
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -969,4 +978,29 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private javax.swing.JButton updateButton;
     private javax.swing.JTextField visitorsTextField;
     // End of variables declaration//GEN-END:variables
+    
+    private boolean checkAddConference(Conference current,Place pl,String temp1,String temp2) {
+        List<Conference> ls_cf = cfDAO.findByPlace(pl);
+        ls_cf.remove(current);
+        Date newStartedDay = null;
+        Date newEndedDay = null;
+        try{
+            newStartedDay = newDateFormat.parse(temp1);
+            newEndedDay = newDateFormat.parse(temp2);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        if ( newStartedDay.compareTo(newEndedDay) >=0 ){
+            return false;
+        }
+        for (Conference i:ls_cf){
+            if (i.getStatus() == 1){
+                if ((newStartedDay.compareTo(i.getEndedtime()))<=0 || (newEndedDay.compareTo(i.getStartedtime())>=0)){
+                    return false;
+                }
+            }
+        }     
+        return true;
+    }
+
 }

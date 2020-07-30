@@ -11,6 +11,7 @@ import dao.*;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -84,7 +85,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        optionSpace.setBackground(new java.awt.Color(66, 65, 65));
+        optionSpace.setBackground(new java.awt.Color(0, 0, 153));
 
         showConferenceButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         showConferenceButton.setText("DANH SÁCH HỘI NGHỊ");
@@ -156,17 +157,13 @@ public class JFrameNewConference extends javax.swing.JFrame {
         optionSpace.setLayout(optionSpaceLayout);
         optionSpaceLayout.setHorizontalGroup(
             optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(optionSpaceLayout.createSequentialGroup()
-                .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(optionSpaceLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(showConferenceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createSequentialGroup()
-                        .addContainerGap(12, Short.MAX_VALUE)
-                        .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(avatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(statisticButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(avatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(statisticButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showConferenceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         optionSpaceLayout.setVerticalGroup(
@@ -186,8 +183,8 @@ public class JFrameNewConference extends javax.swing.JFrame {
         playground.setPreferredSize(new java.awt.Dimension(1006, 800));
         playground.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Infomation of conference", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18))); // NOI18N
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thêm hội nghị", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18))); // NOI18N
         jPanel2.setForeground(new java.awt.Color(204, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -415,6 +412,17 @@ public class JFrameNewConference extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
+        Place chosen = plDAO.find(placeComboBox.getSelectedIndex() + 1);
+        if(checkAddConference(chosen,this.startedTimeTextField.getText(),this.endedTimeTextField.getText()) == false){
+            JOptionPane.showMessageDialog(null, "Thêm không thành công!!!Có hội nghị đã được đặt chỗ");
+            return;
+        }
+        if(Integer.parseInt(this.visitorsTextField.getText())>chosen.getCapacity()){
+            JOptionPane.showMessageDialog(null, "Nơi tổ chức không đủ sức chứa !!!");
+            return;
+        }
+        
+        
         Conference cf = new Conference();
         cf.setName(nameConferenceTextField.getText());
         cf.setGeneralInfo(generalInfoTextField.getText());
@@ -424,14 +432,13 @@ public class JFrameNewConference extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Place chosen = plDAO.find(placeComboBox.getSelectedIndex() + 1);
 
         cf.setPlace(chosen);
         cf.setVisitors(Integer.parseInt(visitorsTextField.getText()));
         cf.setDetail(detailTextField.getText());
         cf.setStatus(1);
         if (cfDAO.save(cf)) {
-            JOptionPane.showMessageDialog(null, "Add conference successfully !!!");
+            JOptionPane.showMessageDialog(null, "Thêm hội nghị thành công !!!");
             try {
                 JFrameIndexAdmin j = new JFrameIndexAdmin();
                 j.setVisible(true);
@@ -440,7 +447,7 @@ public class JFrameNewConference extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Add conference unsuccessfully !!!");
+            JOptionPane.showMessageDialog(null, "Thêm hội không thành công!!!");
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
@@ -519,4 +526,27 @@ public class JFrameNewConference extends javax.swing.JFrame {
     private javax.swing.JButton statisticButton;
     private javax.swing.JTextField visitorsTextField;
     // End of variables declaration//GEN-END:variables
+    private boolean checkAddConference(Place pl, String temp1, String temp2) {
+        List<Conference> ls_cf = cfDAO.findByPlace(pl);
+        Date newStartedDay = null;
+        Date newEndedDay = null;
+        try {
+            newStartedDay = newDateFormat.parse(temp1);
+            newEndedDay = newDateFormat.parse(temp2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (newStartedDay.compareTo(newEndedDay) >= 0) {
+            return false;
+        }
+        for (Conference i : ls_cf) {
+            if (i.getStatus() == 1) {
+                if (((newStartedDay.compareTo(i.getStartedtime()))>=0 &&(newStartedDay.compareTo(i.getEndedtime()))<=0) || ((newEndedDay.compareTo(i.getStartedtime()))>=0 &&(newEndedDay.compareTo(i.getEndedtime()))<=0) )  {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }

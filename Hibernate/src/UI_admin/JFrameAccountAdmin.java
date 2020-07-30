@@ -8,6 +8,8 @@ package UI_admin;
 import UI_guest.*;
 import dao.userDAO;
 import entities.User;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 
 /**
@@ -70,7 +72,7 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        optionSpace.setBackground(new java.awt.Color(66, 65, 65));
+        optionSpace.setBackground(new java.awt.Color(0, 0, 153));
 
         showConferenceButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         showConferenceButton.setText("DANH SÁCH HỘI NGHỊ");
@@ -143,22 +145,19 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
         optionSpaceLayout.setHorizontalGroup(
             optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(optionSpaceLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(optionSpaceLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(showConferenceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createSequentialGroup()
-                        .addContainerGap(22, Short.MAX_VALUE)
-                        .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(avatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(statisticButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(showConferenceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(avatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(statisticButton, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addContainerGap())
         );
         optionSpaceLayout.setVerticalGroup(
             optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+            .addGroup(optionSpaceLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(avatar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66)
                 .addComponent(showConferenceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -166,12 +165,12 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
                 .addComponent(statisticButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
 
         playground.setPreferredSize(new java.awt.Dimension(1006, 800));
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin tài khoản", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18))); // NOI18N
         jPanel2.setForeground(new java.awt.Color(204, 204, 204));
 
@@ -263,7 +262,7 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -318,9 +317,9 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
         playground.setLayout(playgroundLayout);
         playgroundLayout.setHorizontalGroup(
             playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(playgroundLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, playgroundLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         playgroundLayout.setVerticalGroup(
             playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -333,8 +332,8 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(optionSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,13 +386,13 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
         CurrentUser.setName(this.nameTextField.getText());
         CurrentUser.setEmail(this.emailTextField.getText());
         CurrentUser.setUsername(this.usernameTextField.getText());
-        if (this.password1TextField.getText() == this.password1TextField.getText() && this.password1TextField.getText() != ""){
+        if (this.password1TextField.getText() == this.password1TextField.getText() && this.password1TextField.getText() != "") {
             CurrentUser.setPassword(this.password1TextField.getText());
         }
-        if (usDAO.update(CurrentUser)){
+        if (usDAO.update(CurrentUser)) {
             JOptionPane.showMessageDialog(null, "Cập nhật thành công");
             this.setVisible(true);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "Cập nhật không thành công");
         }
     }//GEN-LAST:event_saveButtonActionPerformed

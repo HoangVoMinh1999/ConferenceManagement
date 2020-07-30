@@ -3,12 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_User/JFrameIndexUser.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_admin/JFrameIndexAdmin.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_admin/JFrameListUser.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_guest/JFrameIndexGuest.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_User/JFrameAccountUser.java</file>
-            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_admin/JFrameAccountAdmin.java</file>
+            <file>file:/F:/MidtermJAVA/Hibernate/src/UI_User/JFrameStatistic.java</file>
         </group>
     </open-files>
 </project-private>

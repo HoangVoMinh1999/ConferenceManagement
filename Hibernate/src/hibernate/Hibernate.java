@@ -5,6 +5,7 @@
  */
 package hibernate;
 
+import UI_guest.JFrameIndexGuest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,9 +20,11 @@ public class Hibernate {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(dtf.format(now));
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+//        LocalDateTime now = LocalDateTime.now();
+//        System.out.println(dtf.format(now));
+        JFrameIndexGuest j = new JFrameIndexGuest();
+        j.setVisible(true);
     }
 
 }

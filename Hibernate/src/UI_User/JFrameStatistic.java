@@ -8,7 +8,9 @@ package UI_User;
 import UI_guest.*;
 import dao.*;
 import entities.*;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,11 +20,10 @@ import javax.swing.table.DefaultTableModel;
 public class JFrameStatistic extends javax.swing.JFrame {
 
     private User CurrentUser;
-    private attendanceDAO atDAO = new attendanceDAO();  
+    private attendanceDAO atDAO = new attendanceDAO();
     private userDAO usDAO = new userDAO();
     private placeDAO plDAO = new placeDAO();
     private conferenceDAO cfDAO = new conferenceDAO();
-    
 
     /**
      * Creates new form JFrameStatistic
@@ -37,11 +38,14 @@ public class JFrameStatistic extends javax.swing.JFrame {
         LoadData();
     }
 
-    private void LoadData(){
+    private void LoadData() {
+        System.out.println(CurrentUser.getIdUser());
         List<Attendance> ls_at = atDAO.findAll();
-        for (int i=0;i<ls_at.size();i++){
-            if (ls_at.get(i).getId().getIdUser() != CurrentUser.getIdUser()){
-                ls_at.remove(i);
+        int count = ls_at.size();
+        List<Attendance> temp = new ArrayList<Attendance>();
+        for (int i = 0; i < ls_at.size(); i++) {
+            if (ls_at.get(i).getId().getIdUser() == CurrentUser.getIdUser()) {
+                temp.add(ls_at.get(i));
             }
         }
         DefaultTableModel dtm_con = new DefaultTableModel();
@@ -50,19 +54,19 @@ public class JFrameStatistic extends javax.swing.JFrame {
         dtm_con.addColumn("Thời gian kết thúc");
         dtm_con.addColumn("Địa điểm");
         dtm_con.addColumn("Trạng thái");
-        for (Attendance temp : ls_at){
-            Conference cf = cfDAO.find(temp.getId().getIdConference());
+        for (Attendance i : temp) {
+            Conference cf = cfDAO.find(i.getId().getIdConference());
             Place pl = plDAO.find(cf.getPlace().getIdPlace());
-            if (temp.getStatusUser() == 1){
-                dtm_con.addRow(new Object[]{cf.getName(),cf.getStartedtime(),cf.getEndedtime(),pl.getName(),"Đã tham gia"});
+            if (i.getStatusUser() == 1) {
+                dtm_con.addRow(new Object[]{cf.getName(), cf.getStartedtime(), cf.getEndedtime(), pl.getName(), "Đã tham gia"});
             } else {
-                dtm_con.addRow(new Object[]{cf.getName(),cf.getStartedtime(),cf.getEndedtime(),pl.getName(),"Đang đợi duyệt ..."});
+                dtm_con.addRow(new Object[]{cf.getName(), cf.getStartedtime(), cf.getEndedtime(), pl.getName(), "Đang đợi duyệt ..."});
             }
-                  
-            
+
         }
         this.list.setModel(dtm_con);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,7 +89,7 @@ public class JFrameStatistic extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        optionSpace.setBackground(new java.awt.Color(66, 65, 65));
+        optionSpace.setBackground(new java.awt.Color(0, 0, 153));
 
         showConferenceButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         showConferenceButton.setText("DANH SÁCH HỘI NGHỊ");
@@ -157,17 +161,13 @@ public class JFrameStatistic extends javax.swing.JFrame {
         optionSpace.setLayout(optionSpaceLayout);
         optionSpaceLayout.setHorizontalGroup(
             optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(optionSpaceLayout.createSequentialGroup()
-                .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(optionSpaceLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(showConferenceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createSequentialGroup()
-                        .addContainerGap(12, Short.MAX_VALUE)
-                        .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(avatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(statisticButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(showConferenceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(avatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(statisticButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         optionSpaceLayout.setVerticalGroup(
@@ -235,13 +235,16 @@ public class JFrameStatistic extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexUser j = new JFrameIndexUser();
+        JFrameIndexUser j = new JFrameIndexUser(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_showConferenceButtonActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        JFrameAccountUser j = new JFrameAccountUser(CurrentUser);
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed

@@ -33,6 +33,7 @@ public class JFrameRegister extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         registerButton1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -51,6 +52,10 @@ public class JFrameRegister extends javax.swing.JFrame {
         javax.swing.JButton loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 0, 153));
+        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        registerButton1.setBackground(new java.awt.Color(0, 0, 102));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setPreferredSize(new java.awt.Dimension(600, 600));
@@ -192,12 +197,19 @@ public class JFrameRegister extends javax.swing.JFrame {
         registerButton1Layout.setVerticalGroup(
             registerButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(registerButton1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 56, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 143, Short.MAX_VALUE))
         );
 
-        getContentPane().add(registerButton1, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 600;
+        gridBagConstraints.ipady = 199;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(21, 0, 0, 0);
+        getContentPane().add(registerButton1, gridBagConstraints);
 
         pack();
         setLocationRelativeTo(null);
@@ -209,8 +221,7 @@ public class JFrameRegister extends javax.swing.JFrame {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println(password1TextField.getPassword());
-        System.out.println(password2TextField.getPassword());
+
         if (password1TextField.getPassword().equals(password2TextField.getPassword())) {
             JOptionPane.showMessageDialog(null, "Wrong password !!! Please input correct password");
             return;

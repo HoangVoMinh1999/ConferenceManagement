@@ -54,7 +54,7 @@ public class JFrameNewPlace extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        optionSpace.setBackground(new java.awt.Color(66, 65, 65));
+        optionSpace.setBackground(new java.awt.Color(0, 0, 153));
 
         showConferenceButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         showConferenceButton.setText("DANH SÁCH HỘI NGHỊ");
@@ -66,7 +66,6 @@ public class JFrameNewPlace extends javax.swing.JFrame {
 
         avatar.setPreferredSize(new java.awt.Dimension(246, 246));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("F:\\MidtermJAVA\\icon\\icons8_user_50px_1.png")); // NOI18N
         jLabel1.setText("AVATAR");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setIconTextGap(10);
@@ -128,22 +127,19 @@ public class JFrameNewPlace extends javax.swing.JFrame {
         optionSpaceLayout.setHorizontalGroup(
             optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(optionSpaceLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(optionSpaceLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(showConferenceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createSequentialGroup()
-                        .addContainerGap(22, Short.MAX_VALUE)
-                        .addGroup(optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(avatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(statisticButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                    .addComponent(showConferenceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(avatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(statisticButton, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addGap(14, 14, 14))
         );
         optionSpaceLayout.setVerticalGroup(
             optionSpaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionSpaceLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
+            .addGroup(optionSpaceLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(avatar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62)
                 .addComponent(showConferenceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -151,13 +147,13 @@ public class JFrameNewPlace extends javax.swing.JFrame {
                 .addComponent(statisticButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(128, Short.MAX_VALUE))
         );
 
         playground.setPreferredSize(new java.awt.Dimension(1006, 800));
         playground.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Infomation of place", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18))); // NOI18N
         jPanel2.setForeground(new java.awt.Color(204, 204, 204));
 
@@ -255,8 +251,8 @@ public class JFrameNewPlace extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(optionSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 901, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

@@ -41,6 +41,19 @@ public class conferenceDAO {
         }
     }
     
+        public List<Conference> findByPlace(Place place){
+        try{
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction trans = session.beginTransaction();
+            return session.createCriteria(Conference.class).add(Restrictions.eq("place",place)).list();
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        } finally{
+            session.close();
+        }
+    }
+    
     public boolean delete(Conference cf){
         try {
             session = HibernateUtil.getSessionFactory().openSession();

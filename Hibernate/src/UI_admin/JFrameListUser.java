@@ -90,7 +90,7 @@ public class JFrameListUser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        optionSpace.setBackground(new java.awt.Color(66, 65, 65));
+        optionSpace.setBackground(new java.awt.Color(0, 0, 153));
 
         showConferenceButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         showConferenceButton.setText("DANH SÁCH HỘI NGHỊ");
@@ -212,9 +212,11 @@ public class JFrameListUser extends javax.swing.JFrame {
         jScrollPane1.setViewportView(listUserTable);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("Sort by:");
+        jLabel2.setText("Filter by:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBorder(new javax.swing.border.MatteBorder(null));
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 200));

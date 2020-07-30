@@ -122,7 +122,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        optionSpace.setBackground(new java.awt.Color(66, 65, 65));
+        optionSpace.setBackground(new java.awt.Color(0, 0, 153));
 
         showConferenceButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         showConferenceButton.setText("DANH SÁCH HỘI NGHỊ");
@@ -223,7 +223,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
 
         playground.setPreferredSize(new java.awt.Dimension(1006, 800));
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 153));
 
         listConference.setAutoCreateRowSorter(true);
         listConference.setModel(new javax.swing.table.DefaultTableModel(
@@ -283,7 +283,7 @@ public class JFrameIndexUser extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Infomation of conference", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18))); // NOI18N
         jPanel2.setForeground(new java.awt.Color(204, 204, 204));
 
@@ -560,6 +560,10 @@ public class JFrameIndexUser extends javax.swing.JFrame {
         // TODO add your handling code here:
         int idConference = Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString());
         Conference cf = cfDAO.find(idConference);
+        if (isFull(cf)){
+            JOptionPane.showMessageDialog(null, "Tham gia không thành công !!! Hết chỗ");
+            return;
+        }
         AttendanceId ID = new AttendanceId(idConference, CurrentUser.getIdUser());
         Attendance a = new Attendance(ID, cf, CurrentUser, 0);
         if (atDAO.find(ID) == null) {
@@ -785,4 +789,17 @@ public class JFrameIndexUser extends javax.swing.JFrame {
     private javax.swing.JButton statisticButton;
     private javax.swing.JTextField visitorsTextField1;
     // End of variables declaration//GEN-END:variables
+    private boolean isFull(Conference cf){
+        List<Attendance> ls_at = atDAO.findAll();
+        int count = 0;
+        for (Attendance i:ls_at){
+            if (i.getId().getIdConference() == cf.getIdConference() && i.getStatusUser() == 1){
+                count++;
+            }
+        }
+        if (count < cf.getVisitors()){
+            return false;
+        }
+        return true;
+    }
 }
