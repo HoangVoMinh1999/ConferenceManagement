@@ -24,12 +24,19 @@ public class JFrameListUser extends javax.swing.JFrame {
 
     DefaultTableModel dtm_visitors = new DefaultTableModel();
     private userDAO usDAO = new userDAO();
+    private User CurrentUser;
 
     /**
      * Creates new form JFrameListUser
      */
     public JFrameListUser() {
         initComponents();
+        LoadData();
+    }
+
+    public JFrameListUser(User CurrentUser) {
+        initComponents();
+        this.CurrentUser = CurrentUser;
         LoadData();
     }
 
@@ -415,14 +422,14 @@ public class JFrameListUser extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexAdmin j = new JFrameIndexAdmin();
+        JFrameIndexAdmin j = new JFrameIndexAdmin(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_showConferenceButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
-        JFrameAccountAdmin j = new JFrameAccountAdmin();
+        JFrameAccountAdmin j = new JFrameAccountAdmin(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_editButtonActionPerformed
@@ -440,9 +447,7 @@ public class JFrameListUser extends javax.swing.JFrame {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexAdmin j = new JFrameIndexAdmin();
-        j.setVisible(true);
-        this.dispose();
+        JOptionPane.showMessageDialog(null, "Thông tin chưa cập nhật !!!");
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed

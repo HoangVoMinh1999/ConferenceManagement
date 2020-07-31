@@ -531,9 +531,6 @@ public class JFrameIndexUser extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexUser j = new JFrameIndexUser();
-        j.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_showConferenceButtonActionPerformed
 
     private void nameConferenceTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameConferenceTextFieldActionPerformed

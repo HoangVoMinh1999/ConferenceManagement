@@ -108,6 +108,7 @@ public class JFrameStatistic extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(0, 51, 204));
         jButton5.setText("Xem, chỉnh sửa thông tin cá nhân");
         jButton5.setBorder(null);
         jButton5.setContentAreaFilled(false);
@@ -142,7 +143,7 @@ public class JFrameStatistic extends javax.swing.JFrame {
         );
 
         statisticButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        statisticButton.setText("DANH SÁCH NGƯỜI DÙNG");
+        statisticButton.setText("THỐNG KÊ HỘI NGHỊ");
         statisticButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 statisticButtonActionPerformed(evt);
@@ -203,7 +204,7 @@ public class JFrameStatistic extends javax.swing.JFrame {
         playground.setLayout(playgroundLayout);
         playgroundLayout.setHorizontalGroup(
             playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
         );
         playgroundLayout.setVerticalGroup(
             playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +219,7 @@ public class JFrameStatistic extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(optionSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE))
+                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

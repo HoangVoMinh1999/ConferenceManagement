@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 public class JFrameNewPlace extends javax.swing.JFrame {
 
     private placeDAO plDAO = new placeDAO();
+    private User CurrentUser;
 
     /**
      * Creates new form JFrameNewPlace
@@ -24,7 +25,10 @@ public class JFrameNewPlace extends javax.swing.JFrame {
     public JFrameNewPlace() {
         initComponents();
     }
-
+    public JFrameNewPlace(User CurrentUser) {
+        initComponents();
+        this.CurrentUser = CurrentUser;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,6 +77,7 @@ public class JFrameNewPlace extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(0, 51, 153));
         jButton5.setText("Xem, chỉnh sửa thông tin cá nhân");
         jButton5.setBorder(null);
         jButton5.setContentAreaFilled(false);
@@ -269,7 +274,7 @@ public class JFrameNewPlace extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexAdmin j = new JFrameIndexAdmin();
+        JFrameIndexAdmin j = new JFrameIndexAdmin(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_showConferenceButtonActionPerformed
@@ -280,7 +285,7 @@ public class JFrameNewPlace extends javax.swing.JFrame {
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
-        JFrameListUser j = new JFrameListUser();
+        JFrameListUser j = new JFrameListUser(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_statisticButtonActionPerformed
@@ -294,7 +299,7 @@ public class JFrameNewPlace extends javax.swing.JFrame {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexAdmin j = new JFrameIndexAdmin();
+        JFrameIndexAdmin j = new JFrameIndexAdmin(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed

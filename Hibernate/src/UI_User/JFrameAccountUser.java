@@ -89,6 +89,7 @@ public class JFrameAccountUser extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(0, 51, 153));
         jButton5.setText("Xem, chỉnh sửa thông tin cá nhân");
         jButton5.setBorder(null);
         jButton5.setContentAreaFilled(false);
@@ -123,7 +124,7 @@ public class JFrameAccountUser extends javax.swing.JFrame {
         );
 
         statisticButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        statisticButton.setText("DANH SÁCH NGƯỜI DÙNG");
+        statisticButton.setText("THỐNG KÊ HỘI NGHỊ");
         statisticButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 statisticButtonActionPerformed(evt);
@@ -257,7 +258,7 @@ public class JFrameAccountUser extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -329,7 +330,7 @@ public class JFrameAccountUser extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(optionSpace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE))
+                .addComponent(playground, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +346,7 @@ public class JFrameAccountUser extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexUser j = new JFrameIndexUser();
+        JFrameIndexUser j = new JFrameIndexUser(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_showConferenceButtonActionPerformed
@@ -356,6 +357,9 @@ public class JFrameAccountUser extends javax.swing.JFrame {
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
+        JFrameStatistic j = new JFrameStatistic(CurrentUser);
+        j.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_statisticButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -383,9 +387,9 @@ public class JFrameAccountUser extends javax.swing.JFrame {
         CurrentUser.setName(this.nameTextField.getText());
         CurrentUser.setEmail(this.emailTextField.getText());
         CurrentUser.setUsername(this.usernameTextField.getText());
-        if (String.valueOf(this.password1TextField.getPassword()).equals(String.valueOf(this.password1TextField.getPassword()))  && String.valueOf(this.password1TextField.getPassword()) != "") {
+        if (String.valueOf(this.password1TextField.getPassword()).equals(String.valueOf(this.password1TextField.getPassword())) && String.valueOf(this.password1TextField.getPassword()) != "") {
             try {
-               CurrentUser.setPassword(usDAO.hashPassword(String.valueOf(password2TextField.getPassword())));
+                CurrentUser.setPassword(usDAO.hashPassword(String.valueOf(password2TextField.getPassword())));
             } catch (Exception e) {
                 e.printStackTrace();
             }

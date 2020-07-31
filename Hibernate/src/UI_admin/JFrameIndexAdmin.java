@@ -709,21 +709,21 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
-        JFrameListUser j = new JFrameListUser();
+        JFrameListUser j = new JFrameListUser(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_statisticButtonActionPerformed
 
     private void addConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addConferenceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameNewConference j = new JFrameNewConference();
+        JFrameNewConference j = new JFrameNewConference(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_addConferenceButtonActionPerformed
 
     private void addPlaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPlaceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameNewPlace j = new JFrameNewPlace();
+        JFrameNewPlace j = new JFrameNewPlace(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_addPlaceButtonActionPerformed

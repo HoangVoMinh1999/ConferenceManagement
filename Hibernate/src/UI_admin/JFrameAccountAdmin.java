@@ -91,6 +91,7 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(0, 51, 153));
         jButton5.setText("Xem, chỉnh sửa thông tin cá nhân");
         jButton5.setBorder(null);
         jButton5.setContentAreaFilled(false);
@@ -343,7 +344,7 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
 
     private void showConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showConferenceButtonActionPerformed
         // TODO add your handling code here:
-        JFrameIndexAdmin j = new JFrameIndexAdmin();
+        JFrameIndexAdmin j = new JFrameIndexAdmin(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_showConferenceButtonActionPerformed
@@ -354,7 +355,7 @@ public class JFrameAccountAdmin extends javax.swing.JFrame {
 
     private void statisticButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticButtonActionPerformed
         // TODO add your handling code here:
-        JFrameListUser j = new JFrameListUser();
+        JFrameListUser j = new JFrameListUser(CurrentUser);
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_statisticButtonActionPerformed
