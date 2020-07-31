@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  * @author vomin
  */
 public class JFrameAccountUser extends javax.swing.JFrame {
+
     private userDAO usDAO = new userDAO();
     private User CurrentUser;
 
@@ -59,13 +60,13 @@ public class JFrameAccountUser extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        password1TextField = new javax.swing.JTextField();
         password2 = new javax.swing.JLabel();
-        password2TextField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        password1TextField = new javax.swing.JPasswordField();
+        password2TextField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -204,20 +205,8 @@ public class JFrameAccountUser extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Mật khẩu:");
 
-        password1TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                password1TextFieldActionPerformed(evt);
-            }
-        });
-
         password2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         password2.setText("Xác nhận mật khẩu:");
-
-        password2TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                password2TextFieldActionPerformed(evt);
-            }
-        });
 
         saveButton.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         saveButton.setForeground(new java.awt.Color(0, 102, 255));
@@ -255,6 +244,12 @@ public class JFrameAccountUser extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        password2TextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                password2TextFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -274,9 +269,9 @@ public class JFrameAccountUser extends javax.swing.JFrame {
                     .addComponent(emailTextField)
                     .addComponent(usernameTextField)
                     .addComponent(jLabel4)
-                    .addComponent(password1TextField)
                     .addComponent(jLabel5)
                     .addComponent(password2)
+                    .addComponent(password1TextField)
                     .addComponent(password2TextField))
                 .addGap(65, 65, 65))
         );
@@ -302,10 +297,10 @@ public class JFrameAccountUser extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(password1TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(password2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(password2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(password2))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(password2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
@@ -383,26 +378,25 @@ public class JFrameAccountUser extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
-    private void password1TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password1TextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_password1TextFieldActionPerformed
-
-    private void password2TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password2TextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_password2TextFieldActionPerformed
-
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
-                CurrentUser.setName(this.nameTextField.getText());
+        CurrentUser.setName(this.nameTextField.getText());
         CurrentUser.setEmail(this.emailTextField.getText());
         CurrentUser.setUsername(this.usernameTextField.getText());
-        if (this.password1TextField.getText() == this.password1TextField.getText() && this.password1TextField.getText() != ""){
-            CurrentUser.setPassword(this.password1TextField.getText());
+        if (String.valueOf(this.password1TextField.getPassword()).equals(String.valueOf(this.password1TextField.getPassword()))  && String.valueOf(this.password1TextField.getPassword()) != "") {
+            try {
+               CurrentUser.setPassword(usDAO.hashPassword(String.valueOf(password2TextField.getPassword())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đúng mật khẩu");
+            return;
         }
-        if (usDAO.update(CurrentUser)){
+        if (usDAO.update(CurrentUser)) {
             JOptionPane.showMessageDialog(null, "Cập nhật thành công");
             this.setVisible(true);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "Cập nhật không thành công");
         }
     }//GEN-LAST:event_saveButtonActionPerformed
@@ -413,6 +407,10 @@ public class JFrameAccountUser extends javax.swing.JFrame {
         j.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void password2TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password2TextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_password2TextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -465,9 +463,9 @@ public class JFrameAccountUser extends javax.swing.JFrame {
     private javax.swing.JButton logoutButton;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JPanel optionSpace;
-    private javax.swing.JTextField password1TextField;
+    private javax.swing.JPasswordField password1TextField;
     private javax.swing.JLabel password2;
-    private javax.swing.JTextField password2TextField;
+    private javax.swing.JPasswordField password2TextField;
     private javax.swing.JPanel playground;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton showConferenceButton;

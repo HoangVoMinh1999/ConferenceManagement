@@ -11,7 +11,10 @@ import entities.User;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -19,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JFrameListUser extends javax.swing.JFrame {
 
+    DefaultTableModel dtm_visitors = new DefaultTableModel();
     private userDAO usDAO = new userDAO();
 
     /**
@@ -30,7 +34,6 @@ public class JFrameListUser extends javax.swing.JFrame {
     }
 
     public void LoadData() {
-        DefaultTableModel dtm_visitors = new DefaultTableModel();
         dtm_visitors.addColumn("Tên khách hàng");
         dtm_visitors.addColumn("Email");
         dtm_visitors.addColumn("Username");
@@ -48,10 +51,17 @@ public class JFrameListUser extends javax.swing.JFrame {
             dtm_visitors.addRow(new Object[]{temp.getName(), temp.getEmail(), temp.getUsername(), status});
         }
         this.listUserTable.setModel(dtm_visitors);
-        
+
         ButtonGroup bg = new ButtonGroup();
         bg.add(this.yesButton);
         bg.add(this.noButton);
+    }
+
+    private void filter(String query) {
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(dtm_visitors);
+        this.listUserTable.setRowSorter(rowSorter);
+
+        rowSorter.setRowFilter(RowFilter.regexFilter(query));
     }
 
     /**
@@ -73,8 +83,6 @@ public class JFrameListUser extends javax.swing.JFrame {
         playground = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listUserTable = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -87,6 +95,8 @@ public class JFrameListUser extends javax.swing.JFrame {
         noButton = new javax.swing.JRadioButton();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        searchBar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -210,11 +220,6 @@ public class JFrameListUser extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(listUserTable);
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("Filter by:");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -340,30 +345,47 @@ public class JFrameListUser extends javax.swing.JFrame {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
+        jLabel10.setBackground(new java.awt.Color(0, 0, 153));
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel10.setText("Tìm kiếm");
+
+        searchBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBarActionPerformed(evt);
+            }
+        });
+        searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchBarKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout playgroundLayout = new javax.swing.GroupLayout(playground);
         playground.setLayout(playgroundLayout);
         playgroundLayout.setHorizontalGroup(
             playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addGroup(playgroundLayout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(playgroundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(playgroundLayout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         playgroundLayout.setVerticalGroup(
             playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(playgroundLayout.createSequentialGroup()
-                .addGap(57, 57, 57)
+                .addGap(50, 50, 50)
                 .addGroup(playgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(searchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -416,37 +438,6 @@ public class JFrameListUser extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextFieldActionPerformed
-
-    private void emailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailTextFieldActionPerformed
-
-    private void noButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_noButtonActionPerformed
-
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // TODO add your handling code here:
-        String username = this.listUserTable.getValueAt(this.listUserTable.getSelectedRow(), 2).toString();
-        User temp = usDAO.find(username);
-        if (temp.getState() != 2){
-            if (this.yesButton.isSelected()){
-                temp.setState(1);
-            } else {
-                temp.setState(0);
-            }
-        }
-        if (usDAO.update(temp)){
-            JOptionPane.showMessageDialog(null, "Update successfully");
-            LoadData();
-        } else {
-            JOptionPane.showMessageDialog(null, "Update unsuccessfully");
-        }
-    }//GEN-LAST:event_saveButtonActionPerformed
-
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
         JFrameIndexAdmin j = new JFrameIndexAdmin();
@@ -454,21 +445,79 @@ public class JFrameListUser extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        // TODO add your handling code here:
+        String username = this.listUserTable.getValueAt(this.listUserTable.getSelectedRow(), 2).toString();
+        User temp = usDAO.find(username);
+        if (temp.getState() != 2) {
+            if (this.yesButton.isSelected()) {
+                temp.setState(1);
+            } else {
+                temp.setState(0);
+            }
+        }
+        if (usDAO.update(temp)) {
+            JOptionPane.showMessageDialog(null, "Update successfully");
+            DefaultTableModel dtm_visitors = new DefaultTableModel();
+            dtm_visitors.addColumn("Tên khách hàng");
+            dtm_visitors.addColumn("Email");
+            dtm_visitors.addColumn("Username");
+            dtm_visitors.addColumn("status");
+            List<User> ls_us = usDAO.findAll();
+            for (User i : ls_us) {
+                String status;
+                if (i.getState() == 1) {
+                    status = "Active";
+                } else if (i.getState() == 0) {
+                    status = "Deact";
+                } else {
+                    status = "";
+                }
+                dtm_visitors.addRow(new Object[]{i.getName(), i.getEmail(), i.getUsername(), status});
+            }
+            this.listUserTable.setModel(dtm_visitors);
+        } else {
+            JOptionPane.showMessageDialog(null, "Update unsuccessfully");
+        }
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void noButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_noButtonActionPerformed
+
+    private void emailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailTextFieldActionPerformed
+
+    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameTextFieldActionPerformed
+
     private void listUserTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listUserTableMouseClicked
         // TODO add your handling code here:
         String username = this.listUserTable.getValueAt(this.listUserTable.getSelectedRow(), 2).toString();
         User temp = usDAO.find(username);
         this.nameTextField.setText(temp.getName());
         this.emailTextField.setText(temp.getEmail());
-        if (temp.getState() == 1){
+        if (temp.getState() == 1) {
             this.yesButton.setSelected(true);
-            
-        } else if (temp.getState() == 0 ){
+
+        } else if (temp.getState() == 0) {
             this.noButton.setSelected(true);
-        } else{
+        } else {
             this.yesButton.setSelected(true);
         }
     }//GEN-LAST:event_listUserTableMouseClicked
+
+    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBarActionPerformed
+
+    private void searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBarKeyReleased
+        // TODO add your handling code here:
+        String query = this.searchBar.getText();
+        filter(query);
+    }//GEN-LAST:event_searchBarKeyReleased
 
     /**
      * @param args the command line arguments
@@ -510,9 +559,8 @@ public class JFrameListUser extends javax.swing.JFrame {
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton editButton;
     private javax.swing.JTextField emailTextField;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -527,6 +575,7 @@ public class JFrameListUser extends javax.swing.JFrame {
     private javax.swing.JPanel optionSpace;
     private javax.swing.JPanel playground;
     private javax.swing.JButton saveButton;
+    private javax.swing.JTextField searchBar;
     private javax.swing.JButton showConferenceButton;
     private javax.swing.JButton statisticButton;
     private javax.swing.JRadioButton yesButton;

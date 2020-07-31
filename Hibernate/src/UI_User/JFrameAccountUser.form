@@ -250,9 +250,9 @@
                           <Component id="emailTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="usernameTextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="password1TextField" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="password2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="password1TextField" max="32767" attributes="0"/>
                           <Component id="password2TextField" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
@@ -282,11 +282,11 @@
                               <Component id="password1TextField" min="-2" pref="32" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="password2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="password2TextField" min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jPanel1" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="password2TextField" min="-2" pref="32" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -345,11 +345,6 @@
                 <Property name="text" type="java.lang.String" value="M&#x1ead;t kh&#x1ea9;u:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="password1TextField">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="password1TextFieldActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="password2">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -357,11 +352,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="X&#xe1;c nh&#x1ead;n m&#x1ead;t kh&#x1ea9;u:"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="password2TextField">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="password2TextFieldActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="saveButton">
               <Properties>
@@ -426,6 +416,13 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JPasswordField" name="password1TextField">
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="password2TextField">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="password2TextFieldActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

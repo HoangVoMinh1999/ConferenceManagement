@@ -644,11 +644,16 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
         Conference cf = cfDAO.find(Integer.parseInt(this.listConference.getValueAt(this.listConference.getSelectedRow(), 0).toString()));
         Place chosen = plDAO.find(placeComboBox.getSelectedIndex() + 1);
-        if (!checkAddConference(cf,chosen,this.startedTimeTextField.getText(),this.endedTimeTextField.getText())){
+        if (!checkAddConference(cf, chosen, this.startedTimeTextField.getText(), this.endedTimeTextField.getText())) {
             JOptionPane.showMessageDialog(null, "Cập nhật nghị không thành công !!! Thời gian đó có sk đang diễn ra");
             return;
         }
-      
+
+        if (Integer.parseInt(this.visitorsTextField.getText()) > chosen.getCapacity()) {
+            JOptionPane.showMessageDialog(null, "Nơi tổ chức không đủ sức chứa !!!");
+            return;
+        }
+
         cf.setName(nameConferenceTextField.getText());
         cf.setGeneralInfo(generalInfoTextField.getText());
         try {
@@ -978,28 +983,34 @@ public class JFrameIndexAdmin extends javax.swing.JFrame {
     private javax.swing.JButton updateButton;
     private javax.swing.JTextField visitorsTextField;
     // End of variables declaration//GEN-END:variables
-    
-    private boolean checkAddConference(Conference current,Place pl,String temp1,String temp2) {
+
+    private boolean checkAddConference(Conference current, Place pl, String temp1, String temp2) {
         List<Conference> ls_cf = cfDAO.findByPlace(pl);
-        ls_cf.remove(current);
-        Date newStartedDay = null;
-        Date newEndedDay = null;
-        try{
-            newStartedDay = newDateFormat.parse(temp1);
-            newEndedDay = newDateFormat.parse(temp2);
-        } catch(Exception e){
-            e.printStackTrace();
+        for (int i = 0; i < ls_cf.size(); i++) {
+            if (ls_cf.get(i).getIdConference() == current.getIdConference()) {
+                ls_cf.remove(i);
+            }
         }
-        if ( newStartedDay.compareTo(newEndedDay) >=0 ){
-            return false;
-        }
-        for (Conference i:ls_cf){
-            if (i.getStatus() == 1){
-                if ((newStartedDay.compareTo(i.getEndedtime()))<=0 || (newEndedDay.compareTo(i.getStartedtime())>=0)){
-                    return false;
+        if (!ls_cf.isEmpty()) {
+            Date newStartedDay = null;
+            Date newEndedDay = null;
+            try {
+                newStartedDay = newDateFormat.parse(temp1);
+                newEndedDay = newDateFormat.parse(temp2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (newStartedDay.compareTo(newEndedDay) >= 0) {
+                return false;
+            }
+            for (Conference i : ls_cf) {
+                if (i.getStatus() == 1) {
+                    if (((newStartedDay.compareTo(i.getStartedtime())) >= 0 && (newStartedDay.compareTo(i.getEndedtime())) <= 0) || ((newEndedDay.compareTo(i.getStartedtime())) >= 0 && (newEndedDay.compareTo(i.getEndedtime())) <= 0)) {
+                        return false;
+                    }
                 }
             }
-        }     
+        }
         return true;
     }
 
